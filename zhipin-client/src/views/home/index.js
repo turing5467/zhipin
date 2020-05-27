@@ -12,7 +12,6 @@ export default class Home extends Component {
                     <JobMenu />
                     <HotJob />
                     <HotCPN />
-                    
                 </div>
             </div>
         )

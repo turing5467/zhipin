@@ -15,11 +15,12 @@ var indexRouter = require('./routes/index');
 var userRouter = require('./routes/user');
 var userDetailRouter = require('./routes/user_detail');
 // var jobListRouter = require('./routes/job_list')
-var CPNListRouter = require('./routes/cpn_list')
+// var CPNListRouter = require('./routes/cpn_list')
 var CPNDetailRouter = require('./routes/cpn_detail')
 var JobDetailRouter = require('./routes/job_detail')
 var staticRouter = require('./routes/static')
 var uploadRouter = require('./routes/upload')
+var downloadRouter = require('./routes/download')
 
 var app = express();
 
@@ -38,11 +39,12 @@ app.use('/', indexRouter);
 app.use('/', userRouter);
 app.use('/', userDetailRouter);
 // app.use('/', jobListRouter);
-app.use('/', CPNListRouter);
+// app.use('/', CPNListRouter);
 app.use('/', CPNDetailRouter);
 app.use('/', JobDetailRouter);
 app.use('/', staticRouter);
 app.use('/', uploadRouter);
+app.use('/', downloadRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

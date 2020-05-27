@@ -11,7 +11,7 @@ export default class JobMenu extends Component {
             jobs: [],
             isShowAll:false
         }
-        this.showAll = this.showAll.bind(this);
+        // this.showAll = this.showAll.bind(this);
     }
     componentWillMount() {
         this.getJobs(false);
@@ -19,13 +19,15 @@ export default class JobMenu extends Component {
 
     getJobs(flag) {
         requestJobMenu().then((data) => {
-            this.setState({jobs: flag?data:data.filter((ele, index) => index<7)})
+
+            this.setState({jobs: flag?data:data.slice(0,7)}, () => {
+                this.setState({isShowAll: flag});
+            })
+            
         })
     }
 
-    showAll(flag) {
-        //显示全部职位条改变
-        this.setState({isShowAll: flag});
+    showAll = (flag) => {
         //jobs数组改变
         this.getJobs(flag)
     }
@@ -35,7 +37,7 @@ export default class JobMenu extends Component {
         let isShowAll = this.state.isShowAll;
         
         return (
-            <div className='home-sider' onMouseLeave={() => this.showAll(false)}>
+            <div className='home-sider' onMouseLeave={() => this.getJobs(false)}>
                 <div className='job-menu'>
                     {jobs.map( (ele,index) => <dl key={index}>
                         <dd>
@@ -55,12 +57,13 @@ export default class JobMenu extends Component {
                             </ul>
                         </div>
                     </dl>)}
-                    {
-                        <div class="show-all" style={{display: isShowAll?'none':'block'}} onMouseEnter={() => this.showAll(true)}>
-                        显示全部职位
-                        </div>
-                    }
+                    
                 </div>
+                {
+                    <div class="show-all" style={{opacity: isShowAll?0:1}} onMouseEnter={() => this.getJobs(true)}>
+                    显示全部职位
+                    </div>
+                }
             </div>
         )
     }

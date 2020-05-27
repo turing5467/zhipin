@@ -1,10 +1,14 @@
 import axios from 'axios';
 
-export const uploadURL = 'http://localhost:8088/zhipin/uploadResume'
+let baseURL = 'http://172.20.10.4:8088/zhipin'
+
+export const uploadResumeURL = baseURL+'/uploadResume';
+export const uploadAvatarURL = baseURL+'/uploadAvatar';
+export const socketURL = 'ws://172.20.10.4:8080';
 
 export  function request(config) {
     let instance = axios.create({
-        baseURL: 'http://localhost:8088/zhipin',
+        baseURL,
         timeout: 10000,
         headers: {
             'Content-Type': 'application/json;charset=UTF-8' //默认json格式请求体携带参数
@@ -98,6 +102,8 @@ export function requestJobMenu() {
          }
      })
   }
+
+
   export function requestGetUser(id) {
     return request({
         url: '/getUserById',
@@ -124,6 +130,16 @@ export function requestJobMenu() {
         }
     })
 }
+export function requestAddOneContactToChat(phone, chatInfo) { 
+    return request({
+        url: '/addOneContactToChat',
+        method: 'post',
+        data: {
+            phone,
+            chatInfo
+        }
+    })
+}
 
 export function requestUpdateUser(id, pwd) {
     return request({
@@ -140,3 +156,24 @@ export function requestGetCert() {
         url: '/cert',
     })
  }
+
+ export function requestGetFilterCPNList(condition, page=1) {
+     
+     return request({
+         url: '/getFilterCPNList',
+         params: {
+             condition,
+             page
+         }
+     })
+ }
+
+ export function requestDownloadResume(phone) {
+    return request({
+        url: '/downloadResume',
+        params: {
+            phone
+        },
+        // responseType: 'blob'
+    })
+}

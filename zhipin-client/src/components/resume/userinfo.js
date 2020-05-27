@@ -19,13 +19,18 @@ export default class InfoForm extends Component {
         }
     }
 
+    enShowForm = () => {
+        this.setState({showInfoForm: false})
+        observer.trigger('enShowInfoForm',false)
+    }
+
     formRef = React.createRef();
 
     onFinish = values => {
         let {phone} = this.state;
         requestUpdateDetail(phone, values).then(data => {
             console.log(data);
-            
+            this.enShowForm();
         })
       };
     
@@ -126,10 +131,7 @@ export default class InfoForm extends Component {
                 <div class="form-item form-item-required">
                 <div class="item-label"></div>
                     <Form.Item wrapperCol={{ offset: 8 }}>
-                        <Button  onClick={() => {
-                            this.setState({showInfoForm: false})
-                            observer.trigger('enShowInfoForm',false)
-                        }}>取消</Button>
+                        <Button  onClick={this.enShowForm}>取消</Button>
                         <Button type="primary" htmlType="submit">
                         完成
                         </Button>

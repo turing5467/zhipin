@@ -26,7 +26,7 @@ router.get('/addUser', function(req, res, next) {
     })
     
 });
-
+//登录校验
 router.get('/getUserByPhone', (req, res) => {
     let {phone, pwd} = req.query;
     userModel.find({phone}).then(data => {

@@ -22,4 +22,20 @@ router.post('/updateDetailByPhone', (req, res) => {
     })
 })
 
+router.post('/addOneContactToChat', (req,res) => {
+    let {phone, chatInfo: info} = req.body;
+    // console.log(chatInfo);
+    userDetailModel.findOne({phone}).then(doc => {
+        let chatInfo = doc.chatInfo || [];
+        if(chatInfo.find(ele => ele.chatJob && (ele.chatJob.code === info.chatJob.code))) {
+            res.send({status: -1, msg: ''})
+        }else{
+            chatInfo.push({...info, chatHistory: []})
+            userDetailModel.updateOne({phone}, {chatInfo}).then(data => {
+                res.send({status: 0, data})
+            })
+        }
+    })
+})
+
 module.exports = router;

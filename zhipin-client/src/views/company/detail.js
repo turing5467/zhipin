@@ -11,7 +11,8 @@ class CPNDetail extends Component {
         data: {hot_jobs: [],
         managers: [], envirenment: [], products: [], business: {}},
         showBusiness: false,
-        showManager: false
+        showManager: false,
+        showDesc: false
     }
 
     getCPNDetail() {
@@ -33,7 +34,7 @@ class CPNDetail extends Component {
     }
 
     render() {
-        let {data, showManager} = this.state
+        let {data, showManager, showBusiness, showDesc} = this.state
         
         return ( 
             <div id="main" className="company-new">
@@ -59,7 +60,7 @@ class CPNDetail extends Component {
                 <div className="company-hotjob ">
                     <div className="inner home-inner">
                         <ul>
-                            {data.hot_jobs.map(ele => <li>
+                            {data.hot_jobs.slice(0,3).map(ele => <li>
                                 <a href={"job_detail"+ele.code} target="_blank" >
                                     <div className="info-primary">
                                         <div className="name"><span className="salary">{ele.salary}</span><b>{ele.name}</b></div>
@@ -111,7 +112,12 @@ class CPNDetail extends Component {
                             <div className="detail-content">
                                 <div className="job-sec">
                                     <h3>{data.name}简介</h3>
-                                    <div className="text fold-text">{data.desc}</div>
+                                    <label  onClick={() => {
+                                            this.setState({showDesc:!showDesc})
+                                        }}><span>{showDesc?'收起':'展开'}</span><i className="fz fz-slidedown"></i></label>
+                                    <div className={showDesc?'text':'text fold-text'} dangerouslySetInnerHTML={{__html: data.desc && data.desc.slice(0, data.desc.indexOf('<a'))}}>
+                                    
+                                    </div>
                                 </div>
                                 <div className="job-sec company-products" style={{display: data.products.length>0?'block':'none'}}>
                                     <h3>产品介绍</h3>
@@ -134,10 +140,10 @@ class CPNDetail extends Component {
                                 <div className="job-sec company-business">
                                     <h3>工商信息</h3>
                                     <h4><span>来源：企查查</span>{data.name}</h4>
-                                    <div className={this.state.showBusiness?'business-detail show-business-all':'business-detail'} style={{height: "78px"}}>
-                                        <label><span>{this.state.showBusiness?'收起':'展开'}</span><i className="fz fz-slidedown" onClick={() => {
-                                            this.setState({showBusiness:!this.state.showBusiness})
-                                        }}></i></label>
+                                    <div className={showBusiness?'business-detail show-business-all':'business-detail'} >
+                                        <label  onClick={() => {
+                                            this.setState({showBusiness:!showBusiness})
+                                        }}><span>{showBusiness?'收起':'展开'}</span><i className="fz fz-slidedown"></i></label>
                                         <ul>
                                             <li><span className="t">法人代表：</span>{data.business.LAR}</li>
                                             <li><span className="t">注册资本：</span>{data.business.registered_capital}</li>

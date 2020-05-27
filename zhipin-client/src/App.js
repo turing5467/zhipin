@@ -14,6 +14,7 @@ import Register from './views/register'
 import Login from './views/login'
 import Resume from './views/resume'
 import Setting from './views/setting'
+import Chat from './views/chat'
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
           <Route path="/login" component={Login} />
           <Route path="/resume" component={Resume} />
           <Route path="/setting" component={Setting} />
+          <Route path="/chat" component={Chat} />
         </Switch>
       <Footer />
       <CityBox />

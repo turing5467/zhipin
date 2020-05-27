@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import logo from '../../assets/logo-2x.png'
-import BHeader from './css';
+// import logo from '../../assets/logo-2x.png'
+// import BHeader from './css';
 import {
     NavLink
   } from "react-router-dom";
@@ -45,11 +45,8 @@ import {requestGetUser, requestGetDetail} from '../../common/request'
         let {user} = this.state
         
         return (
-            <BHeader logo={logo}>
-                <div id="header" className='inner'>
-                    {/* <div className='logo'>
-                        <a href="https://www.zhipin.com/" title="BOSS直聘"><span>BOSS直聘</span></a>
-                    </div> */}
+                <div id="header">
+                    <div className='inner'>
                     <div className="nav">
                         <ul>
                             <li><NavLink to="/" exact activeClassName='cur'>首页</NavLink></li>
@@ -67,6 +64,7 @@ import {requestGetUser, requestGetDetail} from '../../common/request'
                         <ul onClick={(e) => this.handleNav(e)} style={{display: !this.props.isLogin?'none':'block'}}>
                             
                             
+                            <li><NavLink to="/chat" activeClassName='cur'>消息</NavLink></li>
                             <li><NavLink to="/resume" activeClassName='cur'>简历</NavLink></li>
                             <li class="nav-figure">
                                 <a href="/jobs">
@@ -79,8 +77,8 @@ import {requestGetUser, requestGetDetail} from '../../common/request'
                             </li>
                         </ul>
                     </div>
+                    </div>
                 </div>
-            </BHeader>
         )
     }
 }

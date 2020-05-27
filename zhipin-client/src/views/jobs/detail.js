@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import {withRouter} from 'react-router-dom'
-import {requestJobDetail, requestCPNDetail} from '../../common/request'
+import {requestJobDetail, requestCPNDetail, requestGetUser, requestAddOneContactToChat} from '../../common/request';
+import Cookie from 'js-cookie'
+import {message} from 'antd'
 
 class JobDetail extends Component {
     constructor(props) {
@@ -8,20 +10,47 @@ class JobDetail extends Component {
         
     }
     state = {
-        JobDetail: {
+        jobDetail: {
             tag_more: [],
             contact: {}
         },
         CPNDetail: {
             business: {},
             desc: ''
+        },
+        showDesc: false
+    }
+
+    toChat = (ele) => {
+        let {phone} = this.state
+        if(!phone) {
+            message.warning('请先登录哦~');
+            return;
         }
+        let chatMan = ele.contact;
+        let chatJob = {
+            code: ele.code,
+            name: ele.name,
+            salary: ele.salary,
+            city: ele.city
+        }
+        let chatInfo = {
+            chatMan,
+            chatJob,
+            chatCompany: ele.companyName,
+            latestChatTime: Date.now()
+        }
+        requestAddOneContactToChat(phone, chatInfo).then(data => {
+            // window.location.href = '/chat'
+        })
     }
 
     getData() {
         let code = this.props.match.params.code;
         requestJobDetail(code).then(data => {
-            this.setState({JobDetail: data.data})
+            console.log(data);
+            
+            this.setState({jobDetail: data.data})
             requestCPNDetail(data.data.companyCode).then(data => {
                 this.setState({CPNDetail: data.data})
             })
@@ -29,19 +58,21 @@ class JobDetail extends Component {
     }
 
     componentWillMount() {
-        this.getData()
+        this.getData();
+
+        let userId = Cookie.get('userId');
+        if(!userId) {
+            this.setState({phone:''})
+        }else {
+            requestGetUser(userId).then(data => {
+                this.setState({phone: data.user.phone})
+            })
+        }
     }
 
-    componentDidMount() {
-        console.log(this.state);
-        
-    }
     render() {
 
-        
-
-        let {JobDetail: job, CPNDetail: cpn} = this.state;
-
+        let {jobDetail: job, CPNDetail: cpn, showDesc} = this.state;
         
         return (
             <div id="main" className="job-container">
@@ -63,7 +94,7 @@ class JobDetail extends Component {
                             </div>
                             <div className="job-op">
                                 <div className="btn-container">
-                                    <a className="btn btn-startchat" href="javascript:;" href={"/chat/"+job.contactCode}>立即沟通</a>
+                                    <a className="btn btn-startchat" href="javascript:;" href="/chat" onClick={this.toChat.bind(this, {...job, companyName:cpn.name})}>立即沟通</a>
                                 </div>
                             </div>
                         </div>
@@ -106,8 +137,12 @@ class JobDetail extends Component {
                             <div className="detail-content">
                                 <div class="job-sec">
                                     <h3>职位描述</h3>
-                                    <div class="text" dangerouslySetInnerHTML={{__html: job.desc}}>
+                                    <label  onClick={() => {
+                                            this.setState({showDesc:!showDesc})
+                                        }}><span>{showDesc?'收起':'展开'}</span><i className="fz fz-slidedown"></i></label>
+                                    <div class={showDesc?'text':'text fold-text'} dangerouslySetInnerHTML={{__html: job.desc}}>
                                     </div>
+                                    
                                 </div>
                                 <div class="job-sec company-info">
                                     <h3>公司介绍</h3>

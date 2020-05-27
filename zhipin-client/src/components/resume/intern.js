@@ -3,6 +3,8 @@ import { Form, Input, Button, DatePicker, message} from 'antd';
 import observer from '../../common/observer'
 import {requestUpdateDetail} from '../../common/request'
 import moment from 'moment'
+import 'moment/locale/zh-cn';
+moment.locale('zh-cn');
 
 export default class InternForm extends Component {
     state = {
@@ -64,10 +66,10 @@ export default class InternForm extends Component {
     }
 
     render() {
-        let {showInternForm, dateFormat} = this.state
+        let {showInternForm, dateFormat, index} = this.state
         return (
             <div className="item-form" style={{display:showInternForm?'block':'none'}}>
-                <h3 class="title">编辑实习经历</h3>
+                <h3 class="title">{index===-1?'添加':'编辑'}实习经历</h3>
                 <Form ref={this.formRef} name="nest-messages" onFinish={this.onFinish}>
                     <div class="form-item form-item-required">
                         <div class="item-label">公司名称</div>
@@ -105,11 +107,11 @@ export default class InternForm extends Component {
                         <div class="item-label">在职时间</div>
                         <div class="item-content">
                         <Form.Item name="starttime" rules={[{ required: true, message: '请填写在职时间'}]}>
-                            <DatePicker picker="month" format={dateFormat}/>
+                            <DatePicker picker="month"/>
                         </Form.Item>
                         <span class="date-scope-text">至</span>
                         <Form.Item name="endtime" rules={[{ required: true, message: '请填写在职时间'}]}>
-                            <DatePicker picker="month" format={dateFormat}/>
+                            <DatePicker picker="month"/>
                         </Form.Item>
                         </div>
                     </div>

@@ -7,13 +7,15 @@ import EducationForm from '../../components/resume/education'
 import CertForm from '../../components/resume/certificate'
 import UploadForm from '../../components/resume/upload'
 import observer from '../../common/observer'
-import {requestGetDetail, requestGetUser} from '../../common/request'
+import {requestGetDetail, requestGetUser, uploadAvatarURL} from '../../common/request'
 import Cookies from 'js-cookie'
 import moment from 'moment'
+import {Upload, message} from 'antd'
 
 
 class Resume extends Component {
     state = {
+        phone: '',
         showInfoForm: false,
         showSuperiorityForm: false,
         showInternForm: false,
@@ -36,9 +38,11 @@ class Resume extends Component {
         
         observer.addlisten('enShowInfoForm', () => {
             this.setState({showInfoForm:false})
+            this.getDetail();
         })
         observer.addlisten('enShowSuperiorityForm', () => {
             this.setState({showSuperiorityForm:false})
+            this.getDetail();
         })
         observer.addlisten('enShowInternForm', () => {
             this.setState({showInternForm:false})
@@ -54,17 +58,26 @@ class Resume extends Component {
         })
         let id = Cookies.get('userId')
         requestGetUser(id).then(data => {
+            console.log('this');
+            console.log(this);
             
-            requestGetDetail(data.user.phone).then(data => {
-                
-                this.setState({user: data.user})
-                observer.trigger('getUser', data.user)
-                observer.trigger('getSuperiority', data.user)
-                observer.trigger('getPhone', data.user.phone)
-                observer.trigger('getCert', data.user)
-            })
+            let phone = data.user.phone;
+            this.setState({phone}, this.getDetail)
+            
         })
         
+    }
+
+    getDetail = () => {
+        let {phone} = this.state;
+        requestGetDetail(phone).then(data => {
+                
+            this.setState({user: data.user})
+            observer.trigger('getUser', data.user)
+            observer.trigger('getSuperiority', data.user)
+            observer.trigger('getPhone', phone)
+            // observer.trigger('getCert', data.user)
+        })
     }
 
     setAndTrigger(name) {
@@ -72,10 +85,50 @@ class Resume extends Component {
         observer.trigger(name)
     }
 
+    constructor(props) {
+        super(props);
+        requestGetUser(Cookies.get('userId')).then(data => {
+            this.phone = data.user.phone;
+            this.options = {
+                name: 'avatar',
+                action: uploadAvatarURL,
+                onChange(info){
+                    
+                    if (info.file.status === 'done') {
+                        message.success('上传成功');
+                        window.location.reload()
+                        console.log(info);
+                        
+                    } else if (info.file.status === 'error') {
+                        message.error('上传失败，请稍后再试');
+                    }
+                 
+                },
+                data: {
+                    phone: this.phone
+                },
+                showUploadList: false,
+                beforeUpload(file) {
+                    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+                    if (!isJpgOrPng) {
+                      message.error('只允许上传JPG/PNG类型的文件');
+                    }
+                    const isLt2M = file.size / 1024 / 1024 < 2;
+                    if (!isLt2M) {
+                      message.error('图片文件不得大于2M');
+                    }
+                    return isJpgOrPng && isLt2M;
+                  }
+            }
+        })
+    }
+
+   
+
 
     render() {
         let {tags} = this
-        let {user,showInfoForm, showSuperiorityForm, showInternForm, showProjectForm, showEducationForm, showCertForm} = this.state
+        let {user,showInfoForm, showSuperiorityForm, showInternForm, showProjectForm, showEducationForm} = this.state
         this.pSpan = '' 
         for(let i = 0;i<6;) {
             this.pSpan += '<p>'
@@ -93,7 +146,7 @@ class Resume extends Component {
             }
             this.pSpan+='</p>'
         }
-        console.log(observer);
+        console.log(user);
         
         
 
@@ -112,7 +165,11 @@ class Resume extends Component {
                                             </div>
                                             <div className="info-flex-item header-upload">
                                                 <div className="header-box">
-                                                    <div className="header-mask"></div><img src={user.avatar} className="header-img" />
+                                                    <Upload {...this.options}>
+                                                    <div className="header-mask">
+                                                    </div>
+                                                    </Upload>
+                                                    <img src={user.avatar} className="header-img" />
                                                 </div>
                                             </div>
                                         </div>
@@ -199,14 +256,16 @@ class Resume extends Component {
                                     </div>
                                     <EducationForm />
                                 </div>
-                                <div id="certification" className="resume-item resume-certification">
+                                {/* <div id="certification" className="resume-item resume-certification">
                                     <div className="item-primary">
                                         <h3 className="title"> 资格证书 <a href="javascript:;" className="link-add" onClick={() => {
                                             this.setAndTrigger('showCertForm')
                                         }}><i className="fz-resume fz-add"></i><span>添加</span></a></h3><ul><li ka="edit-certificate-click" className=""><div className="primary-info"><div className="visible-wrap"><div>
                                             {user.certificate.map(ele => (<span className="resume-cert-tag">{ele}</span>))}</div></div></div><div className="op"><a href="javascript:;" ka="edit-certificate-click" className="link-edit" onClick={() => {
                                             this.setAndTrigger('showCertForm')
-                                        }}><i className="fz-resume fz-edit"></i><span>编辑</span></a></div></li></ul></div></div>
+                                        }}><i className="fz-resume fz-edit"></i><span>编辑</span></a></div></li></ul>
+                                    </div>
+                                </div> */}
                             </div>
                         </div>
                     </div>

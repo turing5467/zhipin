@@ -62,9 +62,8 @@ import {requestLogin} from '../../common/request'
                         case -2:
                             this.setState({pwdErrInfo: '密码错误'})
                         default:
-                            break
-                    }
-                })
+                            break;
+                    }})
             }else {
                 this.setState({phone_1ErrInfo: '请正确填写手机号'})
             }

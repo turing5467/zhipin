@@ -17,7 +17,7 @@ class SearchBox extends Component {
         query: ''
     }
     showSearchHistory(e) {
-        let flag = this.InputBox.contains(e.target);
+        let flag = this.InputBox&&this.InputBox.contains(e.target);
         this.setState({isSearchHistoryShow: flag})
     }
     handleChange(e){

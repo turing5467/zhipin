@@ -7,6 +7,7 @@ const schema = new mongoose.Schema({
         type: String,
         default: '',
     },
+    userId: String,
     name: String,
 	experience: String,
 	degree: String,
@@ -22,6 +23,7 @@ const schema = new mongoose.Schema({
     expect_city:String,
     weixin: String,
     birth: Date,
+    resume: String,
     intern: {
         type: Array,
         default: []
@@ -36,6 +38,10 @@ const schema = new mongoose.Schema({
     },
     certificate: {
         type: Array,
+        default: []
+    },
+    chatInfo: {
+        type:Array,
         default: []
     }
 })

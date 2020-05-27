@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
-import {requestJobList, requestCPNDetail} from '../../common/request';
+import {requestJobList, requestCPNDetail, requestAddOneContactToChat, requestGetUser} from '../../common/request';
 import { Pagination, message } from 'antd';
 import observer from '../../common/observer';
+import Cookie from 'js-cookie';
+import LazyLoad from 'react-lazyload'
 
 export default class JobList extends Component {
     state = {
@@ -11,10 +13,13 @@ export default class JobList extends Component {
         canSubmit: false,
         level: 0,
         feedback: '',
-        condition: {}
+        condition: [],
+        phone: ''
     }
     getJobList(page, condition) {
-        requestJobList(page, condition).then((data) => {
+        // console.log(condition);
+        
+        requestJobList(page, {$and: condition}).then((data) => {
             console.log('data', data);
             
             this.setState({jobList: data.list, total: data.total, CPNList: data.list && data.list.map(ele => ({}))}, () => {
@@ -60,35 +65,85 @@ export default class JobList extends Component {
     }
     componentWillMount() {
         observer.addlisten('setCity', (city) => {
-            console.log('city',city);
             
             let {condition} = this.state
+            let i = condition.findIndex(ele => ele.city !== undefined)
             if(city==='全国') {
-                delete condition['city']
+                condition.splice(i,1)
+                // delete condition['city']
             }else {
-                condition = {...condition, city}
+                if(i === -1) {
+                    condition.push({city})
+                }else {
+                    condition[i] = {city}
+                }
             }
-            console.log('condition',condition);
             
             this.setState({condition})  
             this.getJobList(1, condition)
         })
         observer.addlisten('setSearch', (search) => {
-            console.log(search);
             
             if(search === '') return;
             let {condition} = this.state;
-            condition = {name: {$regex: search}, city: condition.city}
+            let i =  condition.findIndex(ele => ele.name !== undefined)
+            if(i===-1) {
+                condition.push({name: {$regex: search}})
+            }else {
+                condition[i] = {name: {$regex: search}}
+            }
             this.setState({condition})  
             this.getJobList(1, condition)
         })
 
         observer.addlisten('setCondition', (condition) => {
-            this.setState({condition: {...this.state.condition, ...condition}})  
-            this.getJobList(1, condition)
+            if(!condition) {
+                //清空筛选条件
+                this.getJobList(1, [{}])
+            }else {
+                condition = [...this.state.condition, ...condition];
+                // this.setState({condition})  
+                this.getJobList(1, condition)
+            }
         })
+
         this.getJobList();
+        let userId = Cookie.get('userId');
+        if(!userId) {
+            this.setState({phone:''})
+        }else {
+            requestGetUser(userId).then(data => {
+                this.setState({phone: data.user.phone})
+            })
+        }
     }
+
+    toChat = (event, ele) =>{
+        event.stopPropagation();
+        
+        let {phone} = this.state
+        if(!phone) {
+            message.warning('请先登录哦~');
+            return;
+        }
+        let chatMan = ele.contact;
+        let chatJob = {
+            code: ele.code,
+            name: ele.name,
+            salary: ele.salary,
+            city: ele.city
+        }
+        let chatInfo = {
+            chatMan,
+            chatJob,
+            chatCompany: ele.companyName,
+            latestChatTime: Date.now()
+        }
+        requestAddOneContactToChat(phone, chatInfo).then(data => {
+            // window.location.href = '/chat'
+        })
+    }
+
     render() {
         let {jobList,CPNList,  total, canSubmit} = this.state;
         
@@ -113,7 +168,9 @@ export default class JobList extends Component {
                                                     </div>
                                                     <button className="btn btn-startchat" href={"/job_detail/"+ele.code} >
                                                         <img className="icon-chat icon-chat-hover" src="https://z.zhipin.com/web/geek/resource/icon-chat-hover-v2.png" alt=""/>
-                                                        <span>立即沟通</span>
+                                                        <span onClick={(event) => {
+                                                            this.toChat(event, {...ele, companyName: CPNList[i].name});
+                                                        }}>立即沟通</span>
                                                     </button>
                                                 </div>
                                             </a>
@@ -123,7 +180,11 @@ export default class JobList extends Component {
                                                 <h3 className="name"><a href={"/company/"+ele.companyCode} target="_blank">{CPNList[i].name}</a></h3>
                                                 <p>{CPNList[i].industry}<em className="vline"></em>{CPNList[i].finance}<em className="vline"></em>{CPNList[i].scale}</p>
                                             </div>
-                                            <a href={"/company/"+ele.companyCode} target="_blank"><img className="company-logo" src={CPNList[i].logo} alt=""/></a>
+                                            <a href={"/company/"+ele.companyCode} target="_blank">
+                                                <LazyLoad height={54}>
+                                                <img className="company-logo" src={CPNList[i].logo} alt=""/>
+                                                </LazyLoad>
+                                                </a>
                                         </div>
                             </div>
                             <div className="info-append clearfix">
@@ -132,7 +193,7 @@ export default class JobList extends Component {
                         </div>
                     </li>)}
                 </ul>
-                <Pagination defaultCurrent={1} total={total} pageSize={20} onChange={this.handlePage}/>
+                <Pagination defaultCurrent={1} total={total} pageSize={20} showSizeChanger={false} onChange={this.handlePage}/>
                 </div>
                 {/* 反馈框 */}
             <div className="satisfaction-feedback">

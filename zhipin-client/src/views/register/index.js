@@ -63,20 +63,19 @@ export default class Register extends Component {
     handleRegister = () => {
         let {curCode, verifyCode, phone} = this.state;
         
+        //验证码是否正确
         if(curCode !== '' && curCode === verifyCode) {
             this.setState({codeErrInfo: ''})
             
+            //是否同意用户协议
             if(this.state.isAgreePolicy){
                 requestRegister(phone).then(data => {
-                    console.log(data);
                     
                     if(data.status === -1) {
                         //已经注册过
-                        message.success('登录成功');
-                        Cookies.set('userId', data.user._id, {expires: 7});
-                        
-                        window.location.href='/';
+                        message.info('此手机号已注册，请直接登录');
                     }else {
+                        //注册成功
                         message.success('注册成功,请登录');
                         window.location.href = '/login'
                     }

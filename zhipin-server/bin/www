@@ -7,7 +7,19 @@
 var app = require('../app');
 var debug = require('debug')('zhipin-server:server');
 var http = require('http');
+const WebSocket = require('ws');
+const wss = new WebSocket.Server({ port: 8080 });
 
+wss.on('connection',  (conn) => {
+  conn.on('message', (message) => {
+    console.log(message);
+    if(message.indexOf('你好') !== -1) {
+      conn.send('你好~')
+    }else{
+      conn.send('请点击职位了解详情哦~')
+    }
+  })
+})
 /**
  * Get port from environment and store in Express.
  */

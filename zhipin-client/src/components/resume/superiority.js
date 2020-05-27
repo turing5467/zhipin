@@ -8,6 +8,9 @@ export default class SuperiorityForm extends Component {
         showSuperiorityForm:false,
         phone: ''
     }
+
+    formRef = React.createRef();
+
     componentWillMount() {
         observer.addlisten('showSuperiorityForm', () => {
             this.setState({showSuperiorityForm: true});
@@ -17,13 +20,18 @@ export default class SuperiorityForm extends Component {
             this.setState({phone: user.phone})
         })
     }
-    formRef = React.createRef();
+
+    enShowForm = () => {
+        this.setState({showSuperiorityForm: false})
+        observer.trigger('enShowSuperiorityForm',false)
+    }
 
     onFinish = (values) => {
         console.log(values);
         let {phone} = this.state 
         requestUpdateDetail(phone, values).then(data => {
             console.log(data);
+            this.enShowForm();
         })
     }
     render() {
@@ -36,10 +44,7 @@ export default class SuperiorityForm extends Component {
                         <Input.TextArea placeholder="例如：两年UI设计经验，熟悉IOS和Android的界面设计规范，对产品本色有独特见解，有一定的手绘基础"/>
                     </Form.Item>
                     <Form.Item wrapperCol={{ offset: 17 }}>
-                        <Button  onClick={() => {
-                            this.setState({showSuperiorityForm: false})
-                            observer.trigger('enShowSuperiorityForm',false)
-                        }}>取消</Button>
+                        <Button  onClick={this.enShowForm}>取消</Button>
                         <Button type="primary" htmlType="submit">
                         完成
                         </Button>
