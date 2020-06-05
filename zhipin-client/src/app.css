@@ -15937,7 +15937,7 @@ div.slide-code .nc_scale .btn_ok {
     display: none !important
 }
 
-.fz-resume {
+/* .fz-resume {
     width: 24px;
     height: 24px;
     background: url(https://static.zhipin.com/zhipin-geek/v192/web/geek-vue/static/images/icons-resume.f44cb025.png) no-repeat;
@@ -16066,7 +16066,7 @@ div.slide-code .nc_scale .btn_ok {
 
 .fz-menu-num {
     background-image: url(https://static.zhipin.com/zhipin-geek/v192/web/geek-vue/static/images/menu-num.679a6f55.png)
-}
+} */
 
 .resume-container {
     display: flex;

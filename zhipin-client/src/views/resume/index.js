@@ -7,7 +7,7 @@ import EducationForm from '../../components/resume/education'
 // import CertForm from '../../components/resume/certificate'
 import UploadForm from '../../components/resume/upload'
 import observer from '../../common/observer'
-import {requestGetDetail, requestGetUser, uploadAvatarURL} from '../../common/request'
+import {requestGetDetail, requestGetUser, uploadAvatarURL, requestUpdateDetail} from '../../common/request'
 import Cookies from 'js-cookie'
 import moment from 'moment'
 import {Upload, message} from 'antd'
@@ -123,7 +123,24 @@ class Resume extends Component {
         })
     }
 
-   
+    removeItem = (arrName, index) =>{
+        //请求至服务端
+        let flag = window.confirm('确定要删除该经历吗？删除后不可恢复')
+        if(!flag) {
+            return;
+        }
+        let {user, phone} = this.state;
+        user[arrName].splice(index,1);
+        requestUpdateDetail(phone, {[arrName]: user[arrName]}).then((data) => {
+            if(data.nModified === 1) {
+                message.success('删除成功')
+            }
+            
+        })
+        
+        //刷新页面
+        this.forceUpdate();
+    }
 
 
     render() {
@@ -134,8 +151,8 @@ class Resume extends Component {
             this.pSpan += '<p>'
             for(let j = 0;j<3;){
                 if(user[tags[i]]) {
-                    this.pSpan += `<span className="prev-line">
-                        <i className="fz-resume fz-${tags[i]}"></i>${user[tags[i]]}
+                    this.pSpan += `<span class="prev-line">
+                        <i class="fz-resume fz-${tags[i]}"></i>${user[tags[i]]}
                     </span>`;
                     j++
                 }
@@ -146,7 +163,6 @@ class Resume extends Component {
             }
             this.pSpan+='</p>'
         }
-        console.log(user);
         
         
 
@@ -205,7 +221,7 @@ class Resume extends Component {
                                             <span>添加</span></a>
                                         </h3>
                                         <ul>
-                                            {user.intern.map((ele,index, arr) => (<li><div className="primary-info"><div className="info-text"><h4 className="name">{ele.CPNName}</h4><span className="gray period">{moment(new Date(ele.starttime).toLocaleDateString()).format('YYYY.MM')}-{moment(new Date(ele.endtime).toLocaleDateString()).format('YYYY.MM')}</span></div><h4><span className="prev-line">{ele.department}</span><span className="prev-line">{ele.jobName}</span></h4><div className="info-text"><span className="text-type">内容：</span>{ele.content}</div><div className="info-text"><span className="text-type">业绩：</span>{ele.profit}</div></div><div className="op"><a href="javascript:;" className="link-delete"><i className='fz-resume fz-delete'></i><span>删除</span></a>
+                                            {user.intern.map((ele,index, arr) => (<li><div className="primary-info"><div className="info-text"><h4 className="name">{ele.CPNName}</h4><span className="gray period">{moment(new Date(ele.starttime).toLocaleDateString()).format('YYYY.MM')}-{moment(new Date(ele.endtime).toLocaleDateString()).format('YYYY.MM')}</span></div><h4><span className="prev-line">{ele.department}</span><span className="prev-line">{ele.jobName}</span></h4><div className="info-text"><span className="text-type">内容：</span>{ele.content}</div><div className="info-text"><span className="text-type">业绩：</span>{ele.profit}</div></div><div className="op"><a href="javascript:;" onClick={()=>{this.removeItem('intern', index)}}    className="link-delete"><i className='fz-resume fz-delete'></i><span>删除</span></a>
                                                 <a href="javascript:;" className="link-edit" onClick={() => {
                                                     this.setAndTrigger('showInternForm')
                                                     observer.trigger('getIntern',arr,index)
@@ -224,7 +240,7 @@ class Resume extends Component {
                                         }}><i className="fz-resume fz-add"></i><span>添加</span></a>
                                         </h3>
                                         <ul>
-                                            {user.project.map((ele,index,arr) => (<li><div className="primary-info"><i className="icon-garbage"></i><div className="info-text"><h4 className="name">{ele.name}</h4><span className="gray period">{moment(new Date(ele.starttime).toLocaleDateString()).format('YYYY.MM')}-{moment(new Date(ele.endtime).toLocaleDateString()).format('YYYY.MM')}</span></div><div className="info-text"><h4><span className="prev-line">{ele.job}</span></h4></div><div className="info-text"><span className="text-type">内容：</span>{ele.content}</div><div className="info-text"><span className="text-type">业绩：</span>{ele.profit}</div><div className="info-text"><span className="text-type">项目链接：</span>{ele.link}</div></div><div className="op"><a href="javascript:;" className="link-edit" onClick={()=>{
+                                            {user.project.map((ele,index,arr) => (<li><div className="primary-info"><i className="icon-garbage"></i><div className="info-text"><h4 className="name">{ele.name}</h4><span className="gray period">{moment(new Date(ele.starttime).toLocaleDateString()).format('YYYY.MM')}-{moment(new Date(ele.endtime).toLocaleDateString()).format('YYYY.MM')}</span></div><div className="info-text"><h4><span className="prev-line">{ele.job}</span></h4></div><div className="info-text"><span className="text-type">内容：</span>{ele.content}</div><div className="info-text"><span className="text-type">业绩：</span>{ele.profit}</div><div className="info-text"><span className="text-type">项目链接：</span>{ele.link}</div></div><div className="op"><a href="javascript:;" onClick={()=>{this.removeItem('project', index)}}    className="link-delete"><i className='fz-resume fz-delete'></i><span>删除</span></a><a href="javascript:;" className="link-edit" onClick={()=>{
                                                 this.setAndTrigger('showProjectForm');
                                                 observer.trigger('getProject', arr, index)
                                             }}><i className="fz-resume fz-edit"></i><span>编辑</span></a></div>
@@ -247,7 +263,8 @@ class Resume extends Component {
                                                     </div>
                                                     <div className="info-text">{ele.experience}</div>
                                                 </div>
-                                                <div className="op"><a href="javascript:;" className="link-edit" onClick={()=>{
+                                                <div className="op">
+                                                <a href="javascript:;" onClick={()=>{this.removeItem('education', index)}}    className="link-delete"><i className='fz-resume fz-delete'></i><span>删除</span></a><a href="javascript:;" className="link-edit" onClick={()=>{
                                                 this.setAndTrigger('showEducationForm');
                                                 observer.trigger('getEducation', arr, index)
                                             }}><i className="fz-resume fz-edit" ></i><span>编辑</span></a></div>

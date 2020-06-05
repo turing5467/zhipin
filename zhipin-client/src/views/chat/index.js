@@ -20,11 +20,8 @@ export default class Chat extends Component {
 
     scrollToBottom = () => {
         setTimeout(() => {
-            // let box = $('.chat-message')
-            // box.get(0) && box.eq(0).scrollTop(box.get(0).scrollHeight);
             $('.chat-message img:last').get(0).scrollIntoView()
         }, 300)
-        
     }
 
     componentDidMount() {
@@ -40,10 +37,8 @@ export default class Chat extends Component {
         })
         $(document).on("click",'.download-resume', 
             function(e){ 
-                console.log(e);
                 let phone = e.currentTarget.dataset.phone;
                 requestDownloadResume(phone).then((path) => {
-                    console.log(path);
                     if(path.endsWith('undefined')){
                         message.warning('您还未上传简历，请先上传简历!')
                     }else {
@@ -157,7 +152,6 @@ export default class Chat extends Component {
                                                     <span className="name">{ele.chatMan.name}</span>
                                                     <p className="gray">{ele.chatCompany}<i className="vline"></i>{ele.chatMan.post}</p>
                                                 </div>
-                                                {/* <span className="notice-badge" style="display: none;">0</span> */}
                                             </div>
                                         </li>))}
                                     </ul>
