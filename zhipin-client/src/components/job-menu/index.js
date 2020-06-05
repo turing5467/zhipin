@@ -13,7 +13,7 @@ export default class JobMenu extends Component {
         }
         // this.showAll = this.showAll.bind(this);
     }
-    componentWillMount() {
+    componentDidMount() {
         this.getJobs(false);
     }
 
@@ -60,7 +60,7 @@ export default class JobMenu extends Component {
                     
                 </div>
                 {
-                    <div class="show-all" style={{opacity: isShowAll?0:1}} onMouseEnter={() => this.getJobs(true)}>
+                    <div className="show-all" style={{opacity: isShowAll?0:1}} onMouseEnter={() => this.getJobs(true)}>
                     显示全部职位
                     </div>
                 }

@@ -3,6 +3,7 @@ import {requestGetDetail, requestGetUser, socketURL, requestDownloadResume} from
 import {getGapTime} from '../../common/util'
 import Cookie from 'js-cookie'
 import $ from 'jquery';
+import { message } from 'antd';
 
 
 export default class Chat extends Component {
@@ -15,7 +16,18 @@ export default class Chat extends Component {
         ws: null,
         showResumePanel: false
     }
-    componentWillMount(){
+
+
+    scrollToBottom = () => {
+        setTimeout(() => {
+            // let box = $('.chat-message')
+            // box.get(0) && box.eq(0).scrollTop(box.get(0).scrollHeight);
+            $('.chat-message img:last').get(0).scrollIntoView()
+        }, 300)
+        
+    }
+
+    componentDidMount() {
         this.createConnection();
         let userId = Cookie.get('userId');
         requestGetUser(userId).then(data => {
@@ -31,17 +43,16 @@ export default class Chat extends Component {
                 console.log(e);
                 let phone = e.currentTarget.dataset.phone;
                 requestDownloadResume(phone).then((path) => {
-                    // console.log(path);
+                    console.log(path);
+                    if(path.endsWith('undefined')){
+                        message.warning('您还未上传简历，请先上传简历!')
+                    }else {
+                        window.location.href = path
+                    }
                     //下载简历
-                    window.location.href = path
+                    // 
                 })
         }); 
-        
-        
-    }
-
-    componentDidMount() {
-        
     }
 
     StampToTimeOrDate = (stamp) => {
@@ -67,11 +78,9 @@ export default class Chat extends Component {
 
         //回车
         if(e.keyCode === 13) {
-            //发送
             this.sendMsg(msg);
         }
         
-       
         this.setState({canSent: msg!=='',curMsg: msg})
 
     }
@@ -105,6 +114,7 @@ export default class Chat extends Component {
         })
         chatInfo[selected].latestChatTime = sendTime;
         this.forceUpdate();
+
         this.scrollToBottom();
         // callback && callback()
     }
@@ -120,12 +130,7 @@ export default class Chat extends Component {
         }
     }
 
-    scrollToBottom = () => {
-        setTimeout(() => {
-            let box = $('.chat-message')
-            box.get(0) && box.eq(0).scrollTop(box.get(0).scrollHeight);
-        }, 300)
-    }
+    
 
     render() {
         
@@ -138,21 +143,21 @@ export default class Chat extends Component {
                     <div className="chat-wrap">
                         <div>
                             <div className="chat-user">
-                                <div class="article">最近联系人</div>
+                                <div className="article">最近联系人</div>
                                 <div className="user-list">
                                     <ul>
                                         {chatInfo.length>0 && chatInfo.map((ele,i) => (
-                                        <li className={selected === 1?'selected': ''}>
-                                            <div class="figure">
+                                        <li key={ele.chatJob.code} className={selected === 1?'selected': ''}>
+                                            <div className="figure">
                                                 <img src={ele.chatMan.figure} draggable={false} />
                                             </div>
-                                            <div class="text">
-                                                <div class="title">
-                                                    <span class="time">{this.StampToTimeOrDate(ele.latestChatTime)}</span>
-                                                    <span class="name">{ele.chatMan.name}</span>
-                                                    <p class="gray">{ele.chatCompany}<i class="vline"></i>{ele.chatMan.post}</p>
+                                            <div className="text">
+                                                <div className="title">
+                                                    <span className="time">{this.StampToTimeOrDate(ele.latestChatTime)}</span>
+                                                    <span className="name">{ele.chatMan.name}</span>
+                                                    <p className="gray">{ele.chatCompany}<i className="vline"></i>{ele.chatMan.post}</p>
                                                 </div>
-                                                {/* <span class="notice-badge" style="display: none;">0</span> */}
+                                                {/* <span className="notice-badge" style="display: none;">0</span> */}
                                             </div>
                                         </li>))}
                                     </ul>
@@ -161,18 +166,18 @@ export default class Chat extends Component {
                         </div>
                         <div className="chat-record">
                             {/* HR信息 */}
-                            <div class="article">
-                                <p class="fl" >
+                            <div className="article">
+                                <p className="fl" >
                                     <span>{curChat.chatMan.name}</span>
                                     <span>{curChat.chatCompany}</span>
-                                    <i class="vline"></i><span>{curChat.chatMan.post}</span>
+                                    <i className="vline"></i><span>{curChat.chatMan.post}</span>
                                 </p>
                             </div>
                             {/* 职位信息 */}
-                            <div class="chat-position-bar">
+                            <div className="chat-position-bar">
                                 <a href={'/job_detail/'+ curChat.chatJob.code} target="_blank">
                                     <span>沟通职位</span>
-                                    <span class="bar-position-name">{curChat.chatJob.name}</span>
+                                    <span className="bar-position-name">{curChat.chatJob.name}</span>
                                     <span>{curChat.chatJob.salary}</span>
                                     <span>{curChat.chatJob.city}</span>
                                 </a>
@@ -182,13 +187,13 @@ export default class Chat extends Component {
                                 <ul>
                                     {
                                         curChat.chatHistory.length>0 && curChat.chatHistory.map(ele => (
-                                            <li class={ele.isMyMsg?"item-myself" : "item-friend"}>
-                                                <span class="time">{this.StampToTimeOrDate(ele.sendTime)}</span>
-                                                <div class="message-text">
-                                                    <div class="figure">
+                                            <li key={ele.sendTime} className={ele.isMyMsg?"item-myself" : "item-friend"}>
+                                                <span className="time">{this.StampToTimeOrDate(ele.sendTime)}</span>
+                                                <div className="message-text">
+                                                    <div className="figure">
                                                         <img draggable="false" src={curChat.chatMan.figure} style={{display: ele.isMyMsg?'none':'block'}}/>
                                                     </div>
-                                                    <div class="text">
+                                                    <div className="text">
                                                         <p dangerouslySetInnerHTML={{__html: ele.content}}></p>
                                                     </div>
                                                 </div>
@@ -198,26 +203,26 @@ export default class Chat extends Component {
                                 </ul>
                             </div>
                             <div className="chat-im chat-editor">
-                                <div class="sentence-popover panel-resume" style={{display: showResumePanel?'block':'none'}}>
-                                    <div><p class="title">确定向 Boss 发送简历吗？</p>
-                                    <div class="content"><p>Boss确认后，该附件简历将直接发送至对方邮箱</p></div>
-                                        <div class="btns">
-                                            <span class="btn btn-cancel" onClick={this.sureToSendResume.bind(this,false)}>取消</span>
-                                            <span class="btn btn-primary btn-sure" onClick={this.sureToSendResume.bind(this, true)}>确定</span>
+                                <div className="sentence-popover panel-resume" style={{display: showResumePanel?'block':'none'}}>
+                                    <div><p className="title">确定向 Boss 发送简历吗？</p>
+                                    <div className="content"><p>Boss确认后，该附件简历将直接发送至对方邮箱</p></div>
+                                        <div className="btns">
+                                            <span className="btn btn-cancel" onClick={this.sureToSendResume.bind(this,false)}>取消</span>
+                                            <span className="btn btn-primary btn-sure" onClick={this.sureToSendResume.bind(this, true)}>确定</span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="chat-controls">
-                                    {/* <a href="javascript:;" aria-label="表情" class="btn-emotion tooltip tooltip-top"></a> */}
-                                    {/* <a href="javascript:;" aria-label="常用语" class="btn-dict tooltip tooltip-top"></a> */}
-                                    <a href="javascript:;" title="发送简历" aria-label="发简历" class="btn-resume tooltip tooltip-top" onClick={() => {
+                                <div className="chat-controls">
+                                    {/* <a href="javascript:;" aria-label="表情" className="btn-emotion tooltip tooltip-top"></a> */}
+                                    {/* <a href="javascript:;" aria-label="常用语" className="btn-dict tooltip tooltip-top"></a> */}
+                                    <a href="!#" title="发送简历" aria-label="发简历" className="btn-resume tooltip tooltip-top" onClick={() => {
                                         this.setState({showResumePanel: true})
                                     }}></a>
                                 </div>
                                 {/* 消息输入 */}
-                                <div contenteditable="true" class="chat-input" onKeyUp={this.changeText}></div>
+                                <div contentEditable="true" className="chat-input" onKeyUp={this.changeText}></div>
                                 {/* 发送按钮 */}
-                                <div class="chat-op"><span class="tip">按Enter键发送，按Shift+Enter键换行</span><button type="send" class={"btn btn-primary btn-send "+ (canSent?'':'disabled')} onClick={() => {
+                                <div className="chat-op"><span className="tip">按Enter键发送，按Shift+Enter键换行</span><button type="send" className={"btn btn-primary btn-send "+ (canSent?'':'disabled')} onClick={() => {
                                     this.sendMsg(this.state.curMsg)
                                 }}>发送</button></div>
                             </div>

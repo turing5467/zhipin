@@ -12,7 +12,7 @@ export default class SuperiorityForm extends Component {
     // state = {
     //     showSuperiorityForm:false
     // }
-    componentWillMount() {
+    componentDidMount() {
         observer.addlisten(this.props.attrName, () => {
             this.setState({[this.props.attrName]: true});
         })
@@ -22,7 +22,7 @@ export default class SuperiorityForm extends Component {
         let {title} = this.props
         return (
             <div className="item-form" style={{display:showSuperiorityForm?'block':'none'}}>
-                <h3 class="title">{title}</h3>
+                <h3 className="title">{title}</h3>
                 <Form.Item wrapperCol={{ offset: 17 }}>
                     <Button  onClick={() => {
                         this.setState({showSuperiorityForm: false})

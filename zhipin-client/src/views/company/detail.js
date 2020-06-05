@@ -29,7 +29,7 @@ class CPNDetail extends Component {
         })
     }
 
-    componentWillMount(){
+    componentDidMount(){
         this.getCPNDetail()
     }
 
@@ -90,9 +90,9 @@ class CPNDetail extends Component {
                                                     </p>
                                                 </div>
                                                 <div className="text fold-text" style={showManager?{maxHeight: 'none',overflow: 'visible'}:{}} >{e.desc.slice(0,e.desc.indexOf('<'))}
-                                                <a href="javascript:;" class="more-view" style={{display: "inline;"}} onClick={()=>{
+                                                <a href="javascript:;" className="more-view" style={{display: "inline;"}} onClick={()=>{
                                                     this.setState({showManager: !showManager})
-                                                }}>...{showManager?'收起':'展开'}<i class="fz fz-slidedown"></i></a>
+                                                }}>...{showManager?'收起':'展开'}<i className="fz fz-slidedown"></i></a>
                                                 </div>
                                                 </div>
                                             )}

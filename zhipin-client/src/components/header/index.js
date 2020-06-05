@@ -14,7 +14,6 @@ import {requestGetUser, requestGetDetail} from '../../common/request'
  class Header extends Component {
     constructor(props) {
         super(props);
-        
         this.userId = Cookies.get('userId')
         this.props.login(this.userId?this.userId:false)
         
@@ -27,7 +26,7 @@ import {requestGetUser, requestGetDetail} from '../../common/request'
         console.log(e);
     }
 
-    componentWillMount() {
+    componentDidMount() {
 
         this.userId && requestGetUser(this.userId).then(data => {
             requestGetDetail(data.user.phone).then(data => {
@@ -55,24 +54,24 @@ import {requestGetUser, requestGetDetail} from '../../common/request'
                         </ul>
                     </div>
                     <div className="user-nav">
-                        <div class="btns" style={{display: this.props.isLogin?'none':'block'}}>
-                            <a href="/resume" ka="nlp_resume_upload" class="link-sign-resume" title="上传简历，解析内容，完善注册">上传简历</a>
-                            <a href="/login" class="link-sign-resume" title="上传简历，解析内容，完善注册">我要找工作<span class="new" style={{display: 'inline-block'}}>hot</span></a>
-                            <a href="/register" class="btn btn-outline">注册</a>
-                            <a href="/login" class="btn btn-outline">登录</a>
+                        <div className="btns" style={{display: this.props.isLogin?'none':'block'}}>
+                            <a href="/resume" ka="nlp_resume_upload" className="link-sign-resume" title="上传简历，解析内容，完善注册">上传简历</a>
+                            <a href="/login" className="link-sign-resume" title="上传简历，解析内容，完善注册">我要找工作<span className="new" style={{display: 'inline-block'}}>hot</span></a>
+                            <a href="/register" className="btn btn-outline">注册</a>
+                            <a href="/login" className="btn btn-outline">登录</a>
                         </div>
                         <ul onClick={(e) => this.handleNav(e)} style={{display: !this.props.isLogin?'none':'block'}}>
                             
                             
                             <li><NavLink to="/chat" activeClassName='cur'>消息</NavLink></li>
                             <li><NavLink to="/resume" activeClassName='cur'>简历</NavLink></li>
-                            <li class="nav-figure">
+                            <li className="nav-figure">
                                 <a href="/jobs">
-                                    <span class="label-text">{user.name}</span><img src={user.avatar} alt="" />
+                                    <span className="label-text">{user.name}</span><img src={user.avatar} alt="" />
                                 </a>
-                                <div class="dropdown">
+                                <div className="dropdown">
                                     <a href="/setting" >账号设置<span>修改密码等</span></a>
-                                    <a href="/login" class="link-logout">退出登录</a>
+                                    <a href="/login" className="link-logout">退出登录</a>
                                 </div>
                             </li>
                         </ul>

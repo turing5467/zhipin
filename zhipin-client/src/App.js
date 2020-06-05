@@ -20,26 +20,26 @@ import Chat from './views/chat'
 function App() {
   return (
     <Provider store={store}>
-    <div className="App search-job-list-wrap">
-      <Router>
-      <Header />
-        <Switch>
-          <Route path='/' exact component={Home}></Route>
-          <Route path='/jobs' component={Jobs}></Route>
-          <Route path='/company'exact component={Company}></Route>
-          <Route path="/company/:code" component={CPNDetail} />
-          <Route path="/job_detail/:code" component={JobDetail} />
-          <Route path="/register" component={Register} />
-          <Route path="/login" component={Login} />
-          <Route path="/resume" component={Resume} />
-          <Route path="/setting" component={Setting} />
-          <Route path="/chat" component={Chat} />
-        </Switch>
-      <Footer />
-      <CityBox />
-      </Router>
-      
-    </div>
+      <div className="App search-job-list-wrap">
+        <Router>
+        <Header />
+          <Switch>
+            <Route path='/' exact component={Home}></Route>
+            <Route path='/jobs' component={Jobs}></Route>
+            <Route path='/company'exact component={Company}></Route>
+            <Route path="/company/:code" component={CPNDetail} />
+            <Route path="/job_detail/:code" component={JobDetail} />
+            <Route path="/register" component={Register} />
+            <Route path="/login" component={Login} />
+            <Route path="/resume" component={Resume} />
+            <Route path="/setting" component={Setting} />
+            <Route path="/chat" component={Chat} />
+          </Switch>
+        <Footer />
+        <CityBox />
+        </Router>
+        
+      </div>
     </Provider>
   );
 }

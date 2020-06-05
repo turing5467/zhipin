@@ -4,7 +4,7 @@ import SuperiorityForm from '../../components/resume/superiority'
 import InternForm from '../../components/resume/intern'
 import ProjectForm from '../../components/resume/project'
 import EducationForm from '../../components/resume/education'
-import CertForm from '../../components/resume/certificate'
+// import CertForm from '../../components/resume/certificate'
 import UploadForm from '../../components/resume/upload'
 import observer from '../../common/observer'
 import {requestGetDetail, requestGetUser, uploadAvatarURL} from '../../common/request'
@@ -34,7 +34,7 @@ class Resume extends Component {
     tags = ['experience', 'degree', 'status', 'phone', 'weixin', 'mail']
 
 
-    componentWillMount() {
+    componentDidMount() {
         
         observer.addlisten('enShowInfoForm', () => {
             this.setState({showInfoForm:false})
@@ -134,8 +134,8 @@ class Resume extends Component {
             this.pSpan += '<p>'
             for(let j = 0;j<3;){
                 if(user[tags[i]]) {
-                    this.pSpan += `<span class="prev-line">
-                        <i class="fz-resume fz-${tags[i]}"></i>${user[tags[i]]}
+                    this.pSpan += `<span className="prev-line">
+                        <i className="fz-resume fz-${tags[i]}"></i>${user[tags[i]]}
                     </span>`;
                     j++
                 }
@@ -273,7 +273,7 @@ class Resume extends Component {
                         <UploadForm />
                     </div>
                 </div>
-                <CertForm />
+                {/* <CertForm /> */}
             </div>
         )
     }

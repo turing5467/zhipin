@@ -12,7 +12,7 @@ const wss = new WebSocket.Server({ port: 8080 });
 
 wss.on('connection',  (conn) => {
   conn.on('message', (message) => {
-    console.log(message);
+    // console.log(message);
     if(message.indexOf('你好') !== -1) {
       conn.send('你好~')
     }else{

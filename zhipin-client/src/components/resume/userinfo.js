@@ -34,7 +34,7 @@ export default class InfoForm extends Component {
         })
       };
     
-    componentWillMount() {
+    componentDidMount() {
         let {dateFormat} = this.state
         //监听事件
         observer.addlisten('showInfoForm', () => {
@@ -55,19 +55,19 @@ export default class InfoForm extends Component {
     
     return (
         <div className="item-form" style={{display:showInfoForm?'block':'none'}}>
-            <h3 class="title">编辑个人信息</h3>
+            <h3 className="title">编辑个人信息</h3>
             <Form ref={this.formRef} name="nest-messages" onFinish={this.onFinish} className="ui-form ui-form-label-top">
-                <div class="form-item form-item-required">
-                    <div class="item-label">姓名</div>
-                    <div class="item-content">
+                <div className="form-item form-item-required">
+                    <div className="item-label">姓名</div>
+                    <div className="item-content">
                     <Form.Item name="name" rules={[{ required: true}]}>
                         <Input />
                     </Form.Item>
                     </div>
                 </div>
-                <div class="form-item form-item-required">
-                    <div class="item-label">当前求职状态</div>
-                    <div class="item-content">
+                <div className="form-item form-item-required">
+                    <div className="item-label">当前求职状态</div>
+                    <div className="item-content">
                     <Form.Item name="status">
                         <Select
                             placeholder=""
@@ -80,9 +80,9 @@ export default class InfoForm extends Component {
                     </Form.Item>
                     </div>
                 </div>
-                <div class="form-item form-item-required">
-                    <div class="item-label">性别</div>
-                    <div class="item-content">
+                <div className="form-item form-item-required">
+                    <div className="item-label">性别</div>
+                    <div className="item-content">
                     <Form.Item name="gender">
                         <Select
                             placeholder=""
@@ -93,43 +93,43 @@ export default class InfoForm extends Component {
                     </Form.Item>
                     </div>
                 </div>
-                <div class="form-item form-item-required">
-                    <div class="item-label">生日</div>
-                    <div class="item-content">
+                <div className="form-item form-item-required">
+                    <div className="item-label">生日</div>
+                    <div className="item-content">
                     <Form.Item name="birth">
                         <DatePicker  picker="month" format={dateFormat}/>
                     </Form.Item>
                     </div>
                 </div>
-                <div class="form-item form-item-required">
-                    <div class="item-label">微信号(选填)</div>
-                    <div class="item-content">
+                <div className="form-item form-item-required">
+                    <div className="item-label">微信号(选填)</div>
+                    <div className="item-content">
                     <Form.Item name="weixin">
                         <Input placeholder="请输入您的微信号"/>
                     </Form.Item>
                     </div>
                 </div>
-                <div class="form-item">
-                    <div class="item-label">电话</div>
-                    <div class="item-content">
-                        <div class="input-wrap input-wrap-text input-group input-group-with-append input-hide-icon" ka="resume_form_edit_phone">
-                            <input autocomplete="off" spellcheck="false" type="text" placeholder="请输入您的手机号" disabled="disabled" class="input input-disabled" value={initialUser.phone}/>
-                            <div class="input-group-append">
-                                <div class="append-tip"><p class="gray"> 电话即为登录账号，如需修改可直接在 <a href="/setting">账号设置</a> 中修改 </p></div>
+                <div className="form-item">
+                    <div className="item-label">电话</div>
+                    <div className="item-content">
+                        <div className="input-wrap input-wrap-text input-group input-group-with-append input-hide-icon" ka="resume_form_edit_phone">
+                            <input autocomplete="off" spellcheck="false" type="text" placeholder="请输入您的手机号" disabled="disabled" className="input input-disabled" value={initialUser.phone}/>
+                            <div className="input-group-append">
+                                <div className="append-tip"><p className="gray"> 电话即为登录账号，如需修改可直接在 <a href="/setting">账号设置</a> 中修改 </p></div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="form-item form-item-required">
-                    <div class="item-label">邮箱(选填)</div>
-                    <div class="item-content">
+                <div className="form-item form-item-required">
+                    <div className="item-label">邮箱(选填)</div>
+                    <div className="item-content">
                     <Form.Item name="mail">
                         <Input placeholder="请输入您的邮箱"/>
                     </Form.Item>
                     </div>
                 </div>
-                <div class="form-item form-item-required">
-                <div class="item-label"></div>
+                <div className="form-item form-item-required">
+                <div className="item-label"></div>
                     <Form.Item wrapperCol={{ offset: 8 }}>
                         <Button  onClick={this.enShowForm}>取消</Button>
                         <Button type="primary" htmlType="submit">

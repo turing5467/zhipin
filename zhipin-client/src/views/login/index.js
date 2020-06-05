@@ -133,7 +133,7 @@ import {requestLogin} from '../../common/request'
         addClass(e.currentTarget, 'focus-wrap')
     }
 
-    componentWillMount() {
+    componentDidMount() {
         //添加事件
         document.addEventListener('click', (e) => {
             if(!hasClass(e.target, 'ipt')) {
@@ -155,26 +155,26 @@ import {requestLogin} from '../../common/request'
                     <div className="sign-form sign-pwd" style={{display:'block'}}>
                         <div className="sign-content">
                             <div className="inner-box" >
-                                <div class="sign-tab">
+                                <div className="sign-tab">
                                     <span 
-                                    class={tabIndex===1?'link-signin cur': 'link-signin'} 
+                                    className={tabIndex===1?'link-signin cur': 'link-signin'} 
                                     onClick={this.setTab.bind(this, 1)}>密码登录</span>
-                                    <span class={tabIndex===2?'link-sms cur': 'link-sms'}
+                                    <span className={tabIndex===2?'link-sms cur': 'link-sms'}
                                     onClick={this.setTab.bind(this, 2)}>短信登录</span>
                                 </div>
-                                <div class="form-row row-select">
-                                    <span class="ipt-wrap" onClick={this.handleClick}>
-                                        <i class="icon-sign-phone"></i>
-                                        <input type="tel" class="ipt ipt-phone required" placeholder="手机号" value={this.state['phone_'+tabIndex]} onChange={(e) => {
+                                <div className="form-row row-select">
+                                    <span className="ipt-wrap" onClick={this.handleClick}>
+                                        <i className="icon-sign-phone"></i>
+                                        <input type="tel" className="ipt ipt-phone required" placeholder="手机号" value={this.state['phone_'+tabIndex]} onChange={(e) => {
                                             this.changePhone(e,tabIndex)
                                         }}/>
                                     </span>
                                     <div className="tip-error" style={{display: (tabIndex===1?phone_1ErrInfo:phone_2ErrInfo)?'block':'none'}}>{tabIndex===1?phone_1ErrInfo:phone_2ErrInfo}</div>
                                 </div>
-                                <div class="form-row" style={{display: tabIndex===1?'block':'none'}}>
-                                    <span class="ipt-wrap" onClick={this.handleClick}>
-                                        <i class="icon-sign-pwd"></i>
-                                        <input type="password" class="ipt ipt-pwd required"  placeholder="密码" autoComplete="off" value={this.state.password} onChange={this.changePwd}/>
+                                <div className="form-row" style={{display: tabIndex===1?'block':'none'}}>
+                                    <span className="ipt-wrap" onClick={this.handleClick}>
+                                        <i className="icon-sign-pwd"></i>
+                                        <input type="password" className="ipt ipt-pwd required"  placeholder="密码" autoComplete="off" value={this.state.password} onChange={this.changePwd}/>
                                     </span>
                                     <div className="tip-error" style={{display: pwdErrInfo?'block':'none'}}>{pwdErrInfo}</div>
                                 </div>
@@ -189,11 +189,11 @@ import {requestLogin} from '../../common/request'
                                     </span>
                                     <div className="tip-error" style={{display: codeErrInfo?'block':'none'}}>{codeErrInfo}</div>
                                 </div>
-                                <div class="form-btn">
-                                    <button class="btn" onClick={this.handleLogin}>登录</button>
+                                <div className="form-btn">
+                                    <button className="btn" onClick={this.handleLogin}>登录</button>
                                 </div>
-                                <div class="text-tip">
-                                    <a href="/register" class="link-signup">免费注册</a>
+                                <div className="text-tip">
+                                    <a href="/register" className="link-signup">免费注册</a>
                                 </div>
                             </div>
                         </div>

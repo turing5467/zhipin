@@ -12,8 +12,20 @@ export default class UploadForm extends Component {
             this.options = {
                 name: 'resume',
                 action: uploadResumeURL,
+                beforeUpload(file){
+                    console.log(file);
+                    let fileType = file.name.split('.')[1]
+                    let arr = ['doc','docx','docm','pdf']
+                    let flag = arr.some(ele => fileType==ele)
+                    if(flag) {
+                        return true
+                    }else {
+                        message.warning('请上传.doc,.docx,.docm,.pdf格式的文档')
+                        return false;
+                    }
+                    // return ;
+                },
                 onChange(info){
-                    
                     if (info.file.status === 'done') {
                         message.success('上传成功');
                         
@@ -25,17 +37,17 @@ export default class UploadForm extends Component {
                     phone: this.phone
                 },
                 showUploadList: false,
-                accept: '.doc,.docx'
+                // accept: '.doc,.docx'
             }
         })
     }
 
     render() {
         return (
-            <div class="sider-box sider-resume">
-                <div class="resume-attachment">
-                    <h3 class="sider-title">附件管理</h3>
-                    <div class="btns">
+            <div className="sider-box sider-resume">
+                <div className="resume-attachment">
+                    <h3 className="sider-title">附件管理</h3>
+                    <div className="btns">
                     <Upload {...this.options}>
                         <Button type="primary">上传简历</Button>
                     </Upload>

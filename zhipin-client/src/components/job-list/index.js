@@ -20,7 +20,6 @@ export default class JobList extends Component {
         // console.log(condition);
         
         requestJobList(page, {$and: condition}).then((data) => {
-            console.log('data', data);
             
             this.setState({jobList: data.list, total: data.total, CPNList: data.list && data.list.map(ele => ({}))}, () => {
                 let {jobList, CPNList} = this.state
@@ -63,7 +62,7 @@ export default class JobList extends Component {
         this.setState({feedback: e.target.value})
         
     }
-    componentWillMount() {
+    componentDidMount() {
         observer.addlisten('setCity', (city) => {
             
             let {condition} = this.state
@@ -156,36 +155,36 @@ export default class JobList extends Component {
                         <div className="job-primary">
                             <div className="info-primary">
                             <div className="primary-wrapper">
-                                            <a className="primary-box" href={"/job_detail/"+ele.code} data-jid={ele.code} target="_blank">
-                                                <div className="job-title">
-                                                    <span className="job-name">{ele.name}</span>
-                                                </div>
-                                                <div className="job-limit clearfix">
-                                                    <span className="red">{ele.salary}</span>
-                                                    <p>{ele.experience}<em className="vline"></em>{ele.eduBG}</p>
-                                                    <div className="info-publis">
-                                                        <h3 className="name"><img className="icon-chat" src="https://z.zhipin.com/web/geek/resource/icon-chat-v2.png"/>{ele.contact.name}<em className="vline"></em>{ele.contact.post}</h3>
-                                                    </div>
-                                                    <button className="btn btn-startchat" href={"/job_detail/"+ele.code} >
-                                                        <img className="icon-chat icon-chat-hover" src="https://z.zhipin.com/web/geek/resource/icon-chat-hover-v2.png" alt=""/>
-                                                        <span onClick={(event) => {
-                                                            this.toChat(event, {...ele, companyName: CPNList[i].name});
-                                                        }}>立即沟通</span>
-                                                    </button>
-                                                </div>
-                                            </a>
+                                <a className="primary-box" href={"/job_detail/"+ele.code} data-jid={ele.code} target="_blank">
+                                    <div className="job-title">
+                                        <span className="job-name">{ele.name}</span>
+                                    </div>
+                                    <div className="job-limit clearfix">
+                                        <span className="red">{ele.salary}</span>
+                                        <p>{ele.experience}<em className="vline"></em>{ele.eduBG}</p>
+                                        <div className="info-publis">
+                                            <h3 className="name"><img className="icon-chat" src="https://z.zhipin.com/web/geek/resource/icon-chat-v2.png"/>{ele.contact.name}<em className="vline"></em>{ele.contact.post}</h3>
                                         </div>
-                                        <div className="info-company">
-                                            <div className="company-text">
-                                                <h3 className="name"><a href={"/company/"+ele.companyCode} target="_blank">{CPNList[i].name}</a></h3>
-                                                <p>{CPNList[i].industry}<em className="vline"></em>{CPNList[i].finance}<em className="vline"></em>{CPNList[i].scale}</p>
-                                            </div>
-                                            <a href={"/company/"+ele.companyCode} target="_blank">
-                                                <LazyLoad height={54}>
-                                                <img className="company-logo" src={CPNList[i].logo} alt=""/>
-                                                </LazyLoad>
-                                                </a>
-                                        </div>
+                                        <button className="btn btn-startchat" href={"/job_detail/"+ele.code} >
+                                            <img className="icon-chat icon-chat-hover" src="https://z.zhipin.com/web/geek/resource/icon-chat-hover-v2.png" alt=""/>
+                                            <span onClick={(event) => {
+                                                this.toChat(event, {...ele, companyName: CPNList[i].name});
+                                            }}>立即沟通</span>
+                                        </button>
+                                    </div>
+                                </a>
+                            </div>
+                            <div className="info-company">
+                                <div className="company-text">
+                                    <h3 className="name"><a href={"/company/"+ele.companyCode} target="_blank">{CPNList[i].name}</a></h3>
+                                    <p>{CPNList[i].industry}<em className="vline"></em>{CPNList[i].finance}<em className="vline"></em>{CPNList[i].scale}</p>
+                                </div>
+                                <a href={"/company/"+ele.companyCode} target="_blank">
+                                    <LazyLoad height={54}>
+                                    <img className="company-logo" src={CPNList[i].logo} alt=""/>
+                                    </LazyLoad>
+                                    </a>
+                            </div>
                             </div>
                             <div className="info-append clearfix">
                                 <div className="info-desc">{ele.tag_more.join(',')}</div>

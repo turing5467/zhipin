@@ -11,7 +11,7 @@ export default class SuperiorityForm extends Component {
 
     formRef = React.createRef();
 
-    componentWillMount() {
+    componentDidMount() {
         observer.addlisten('showSuperiorityForm', () => {
             this.setState({showSuperiorityForm: true});
         })
@@ -38,7 +38,7 @@ export default class SuperiorityForm extends Component {
         let {showSuperiorityForm} = this.state
         return (
             <div className="item-form" style={{display:showSuperiorityForm?'block':'none'}}>
-                <h3 class="title">编辑个人信息</h3>
+                <h3 className="title">编辑个人信息</h3>
                 <Form ref={this.formRef} name="nest-messages" onFinish={this.onFinish}>
                     <Form.Item name='superiority' >
                         <Input.TextArea placeholder="例如：两年UI设计经验，熟悉IOS和Android的界面设计规范，对产品本色有独特见解，有一定的手绘基础"/>

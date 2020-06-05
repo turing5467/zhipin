@@ -10,7 +10,7 @@ export default class Setting extends Component {
         phone: ''
     }
 
-    componentWillMount(){
+    componentDidMount(){
         requestGetUser(Cookies.get('userId')).then(data => {
             // console.log(data);
             let {pwd,phone} = data.user
@@ -59,20 +59,20 @@ export default class Setting extends Component {
         }
         
         return (
-            <div id="main" class="inner">
-                <div class="account">
-                    <div class="account-tab-nav">
+            <div id="main" className="inner">
+                <div className="account">
+                    <div className="account-tab-nav">
                         <nav>
-                            <h3 class="nav-title">账号设置</h3>
+                            <h3 className="nav-title">账号设置</h3>
                             <ul>
-                                <li class="nav-list active">设置密码</li>
+                                <li className="nav-list active">设置密码</li>
                             </ul>
                         </nav>
                         <div className="content">
-                            <div class="change-pwd-content">
-                                <div class="form-item">
-                                    <div class="item-label" >当前登录的账号</div>
-                                    <div class="item-content" ><span class="text-gray">{phone.replace(phone.substring(3,7), '****')}</span></div>
+                            <div className="change-pwd-content">
+                                <div className="form-item">
+                                    <div className="item-label" >当前登录的账号</div>
+                                    <div className="item-content" ><span className="text-gray">{phone.replace(phone.substring(3,7), '****')}</span></div>
                                 </div>
                                 <Form
                                     style={{display:isPwdSet?'none':'block'}}

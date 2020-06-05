@@ -19,7 +19,6 @@ const resumeStorage = multer.diskStorage({
       let filename = files.find(ele => ele.startsWith(phone));
       if(filename) {
         let pathname = path.join(__dirname, '/upload/resume/'+filename)
-        console.log(pathname);
         
         fs.unlink(pathname, err => {
           !err && cb(null, fileFormat)
@@ -28,8 +27,6 @@ const resumeStorage = multer.diskStorage({
         cb(null, fileFormat);
       }
     })
-
-    
   }
 });
 

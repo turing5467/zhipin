@@ -29,7 +29,7 @@ import observer from '../../common/observer'
         this.forceUpdate();
         observer.trigger('setCity', city)
      }
-     componentWillMount() {
+     componentDidMount() {
         this.getCityTitle();
         this.getCities();
      }
@@ -45,7 +45,7 @@ import observer from '../../common/observer'
                 }}></div>
                 <div className="dialog-container">
                     <div className="dialog-title">
-                        <h3 className="title"></h3><a href="javascript:;" className="close" ka="dialog_close" onClick={() => {
+                        <h3 className="title"></h3><a href="#!" className="close" ka="dialog_close" onClick={() => {
                             this.props.showCity(false);
                         }}><i className="icon-close"></i></a>
                     </div>
@@ -54,14 +54,14 @@ import observer from '../../common/observer'
                         <div className="city-wrapper">
                             <ul className="section-province">
                                 {
-                                    cityTitle.map((ele,index) => <li className={curIndex===index?'active':''} onClick={() => {
+                                    cityTitle.map((ele,index) => <li key={ele} className={curIndex===index?'active':''} onClick={() => {
                                         this.setState({curIndex:index})
                                     }}>{ele}</li>)
                                 }
                             </ul>
                             <ul className="section-city">
                                 {
-                                    curIndex===0?cities[0].cities.map(ele =><li className="hot-city" onClick={()=>this.setCity(ele)}><span className="city-cur" >{ele}</span></li>):cities.filter((ele) => ele.letter !=undefined && cityTitle[curIndex].indexOf(ele.letter)!==-1).map(ele => <li className="classify-city">
+                                    curIndex===0?cities[0].cities.map(ele =><li key={ele} className="hot-city" onClick={()=>this.setCity(ele)}><span className="city-cur" >{ele}</span></li>):cities.filter((ele) => ele.letter !=undefined && cityTitle[curIndex].indexOf(ele.letter)!==-1).map(ele => <li className="classify-city">
                                         <div className="city-title">{ele.letter}</div>
                                         <ul className="city-main">
                                             {ele.cities.map(e => <li onClick={()=>this.setCity(e)}>

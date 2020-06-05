@@ -61,7 +61,7 @@ export default class ProjectForm extends Component {
         })
     }
     
-    componentWillMount() {
+    componentDidMount() {
         let Y = new Date().getFullYear();
         let gap = Y - 1990;
         this.startYear = Array.from(new Array(gap + 1).keys(), ele => ele + 1990).reverse()
@@ -89,20 +89,20 @@ export default class ProjectForm extends Component {
         
         return (
             <div className="item-form" style={{display:showEducationForm?'block':'none'}}>
-                <h3 class="title">编辑教育经历</h3>
+                <h3 className="title">编辑教育经历</h3>
                 <Form ref={this.formRef} name="nest-messages" onFinish={this.onFinish}>
-                    <div class="form-item form-item-required">
-                        <div class="item-label">学校名称</div>
-                        <div class="item-content">
+                    <div className="form-item form-item-required">
+                        <div className="item-label">学校名称</div>
+                        <div className="item-content">
                         <Form.Item name="school" rules={[{ required: true, message: '学校名称不允许为空'}]}>
                             <Input placeholder="例如：清华大学"/>
                         </Form.Item>
                         </div>
                     </div>
                     
-                    <div class="form-item form-item-required">
-                        <div class="item-label"> </div>
-                        <div class="item-content">
+                    <div className="form-item form-item-required">
+                        <div className="item-label"> </div>
+                        <div className="item-content">
                         <Form.Item name="isFullTime" rules={[{ required: true, message: '请选择是否全日制'}]}>
                             <Radio.Group>
                                 <Radio.Button value="全日制">全日制</Radio.Button>
@@ -112,9 +112,9 @@ export default class ProjectForm extends Component {
                         </div>
                     </div>
 
-                    <div class="form-item form-item-required">
-                        <div class="item-label">学历</div>
-                        <div class="item-content">
+                    <div className="form-item form-item-required">
+                        <div className="item-label">学历</div>
+                        <div className="item-content">
                         <Form.Item name="eduBG" rules={[{ required: true, message: '请填写学历'}]}>
                         <Select placeholder="选择学历">
                             <Option value="初中及以下">初中及以下</Option>
@@ -129,24 +129,24 @@ export default class ProjectForm extends Component {
                         </div>
                     </div>
 
-                    <div class="form-item form-item-required">
-                        <div class="item-label">专业</div>
-                        <div class="item-content">
+                    <div className="form-item form-item-required">
+                        <div className="item-label">专业</div>
+                        <div className="item-content">
                         <Form.Item name="specialty" rules={[{ required: true, message: '请填写专业'}]}>
                             <Input placeholder="例如：信息安全"/>
                         </Form.Item>
                         </div>
                     </div>
                     
-                    <div class="form-item form-item-required form-time form-full">
-                        <div class="item-label">时间段</div>
-                        <div class="item-content">
+                    <div className="form-item form-item-required form-time form-full">
+                        <div className="item-label">时间段</div>
+                        <div className="item-content">
                         <Form.Item name="startYear" rules={[{ required: true , message: '请填写时间段'}]}>
                         <Select placeholder="选择年份" onChange={this.change}>
                             {this.startYear.map(ele => (<Option value={ele}>{ele}</Option>))}
                         </Select>
                         </Form.Item>
-                        <span class="date-scope-text">至</span>
+                        <span className="date-scope-text">至</span>
                         <Form.Item name="endYear" rules={[{ required: true , message: '请填写时间段'}]}>
                         <Select placeholder="选择年份" disabled={endYear.length>0?false:true} onChange={this.change}>
                             {endYear.map(ele => (<Option value={ele}>{ele}</Option>))}
@@ -154,9 +154,9 @@ export default class ProjectForm extends Component {
                         </Form.Item>
                         </div>
                     </div>
-                    <div class="form-item form-item-required form-full">
-                        <div class="item-label">在校经历(选填)</div>
-                        <div class="item-content">
+                    <div className="form-item form-item-required form-full">
+                        <div className="item-label">在校经历(选填)</div>
+                        <div className="item-content">
                         <Form.Item name="experience" rules={[{ required: true, message: '请填写专业'}]}>
                             <Input.TextArea placeholder="请填写内容"/>
                         </Form.Item>

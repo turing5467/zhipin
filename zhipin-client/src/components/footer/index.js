@@ -12,7 +12,7 @@ export default class Footer extends Component {
                 <p>休息日 <span>9:30 - 18:30</span></p>
                 <p className="footer-icon">
                     <a href="http://www.weibo.com/bosszhipin" target="_blank" className="icon-weibo"><span>官方微博</span></a>
-                    <a href="javascript:;" className="icon-weixin"><span>微信公众号</span><img src="https://static.zhipin.com/v2/web/geek/images/we_chat_qr.jpg" className="qrcode-weixin"/></a>
+                    <a href="#!" className="icon-weixin"><span>微信公众号</span><img src="https://static.zhipin.com/v2/web/geek/images/we_chat_qr.jpg" className="qrcode-weixin"/></a>
                     <a href="https://app.zhipin.com" className="icon-app" ka="link-downloadapp"><span>下载</span></a>
                 </p>
             </div>

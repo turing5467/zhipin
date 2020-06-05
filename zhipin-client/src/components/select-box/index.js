@@ -102,16 +102,16 @@ export default class SelectBox extends Component {
             <div className="filter-select-box">
                 {
                 requirements.map(ele => 
-                <Dropdown 
+                <Dropdown key={ele.typeEn}
                     overlayClassName="dropdown-menu" 
-                    overlay={<Menu>{ele.options.map(e => <Menu.Item>
-                        <a target="_self" href="javascript:;" onClick={(event) => {this.handleSetCondition(event, ele.typeEn, e)}}>{e}</a>
+                    overlay={<Menu>{ele.options.map(e => <Menu.Item key={e}>
+                        <a target="_self" href="#!" onClick={(event) => {this.handleSetCondition(event, ele.typeEn, e)}}>{e}</a>
                         </Menu.Item>)}</Menu>} >
                     <span className="dropdown-select">{ele.type}
                     <i className="icon-select-arrow"></i></span>
                 </Dropdown>)
                 }
-                <a href="javascript:;" className="empty-filter" onClick={this.clearCondition}>清空筛选条件</a>
+                <a href="#!" className="empty-filter" onClick={this.clearCondition}>清空筛选条件</a>
             </div>
         )
     }

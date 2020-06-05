@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 import observer from '../../common/observer'
 import {requestCPNList, requestGetFilterCPNList} from '../../common/request'
 import {Pagination} from 'antd'
+import Lazyload from 'react-lazyload'
 
  class Company extends Component {
 
@@ -72,25 +73,30 @@ import {Pagination} from 'antd'
 
     getCPNList(page) {
         requestCPNList(page).then(data => {
+            console.log(data);
+            data.list.forEach(ele => {
+                console.log(ele.hot_jobs);
+                
+            })
             this.setState({cpn_list: data.list,
                 total: data.total
             })
         })
     }
-    componentWillMount() {
+    componentDidMount() {
         this.getCPNList();
     }
 
 
     render() {
-        let {selected,filter, cpn_list, total, condition} = this.state;
+        let {selected,filter, cpn_list, total} = this.state;
 
         return (
             <div className="filter-box">
-                <div class="filter-condition ">
-                    {filter.map((ele,index) => <div key={ele.en} class={"filter-row"}>
-                        <span class="title">{ele.title}</span>
-                        <span class="content">
+                <div className="filter-condition ">
+                    {filter.map((ele,index) => <div key={ele.en} className={"filter-row"}>
+                        <span className="title">{ele.title}</span>
+                        <span className="content">
                             {ele.options.map((e,i)=><a 
                             key={i} href="javascript:;" className={selected[index]===i?"selected":""} onClick={()=>{
                                 if(e==="全部城市") {
@@ -117,17 +123,21 @@ import {Pagination} from 'antd'
                         {cpn_list.map(ele => <li>
                             <div className="sub-li">
                                 <a href={"/company/"+ele.code} target="_blank" className="company-info">
-                                    <img src={ele.logo} alt=""/>
+                                    <Lazyload height={55}>
+                                        <img src={ele.logo} alt=""/>
+                                    </Lazyload>
                                     <div className="conpany-text">
                                         <h4>{ele.name}</h4>
                                         <p>{ele.finance?ele.finance:''}
-                                        {ele.finance?<span class="vline"></span>:''}
+                                        {ele.finance?<span className="vline"></span>:''}
                                         {ele.industry}</p>
                                     </div>
                                 </a>
-                                    <a href={"/job_detail/"+ele.hot_job_code} className="about-info">
-                                        <p>热招：<u class="h">{ele.hot_job_name}</u> {ele.hot_job_salary}</p>
+                                    {
+                                        ele.hot_jobs[0] && <a href={"/job_detail/"+ele.hot_jobs[0].code} className="about-info">
+                                        <p>热招：<u className="h">{ele.hot_jobs[0].name}</u> {ele.hot_jobs[0].salary}</p>
                                     </a>
+                                    }
                             </div>
                         </li>)}
                     </ul>

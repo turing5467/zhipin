@@ -24,6 +24,11 @@ Boss直聘仿写，实现基本功能
 
 
 
+#### 亮点
+
+1. 对axios进行封装，降低日后维护成本
+2. 
+
 #### 性能优化
 
 1. 图片加载
@@ -34,25 +39,13 @@ Boss直聘仿写，实现基本功能
 
 #### 部分截图展示
 
-![image-20200527190546576](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20200527190546576.png)
 
-![image-20200527190615922](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20200527190615922.png)
 
-![image-20200527190732490](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20200527190732490.png)
-
-![image-20200527191955506](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20200527191955506.png)
-
-![image-20200527192037089](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20200527192037089.png)
-
-![image-20200527192054154](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20200527192054154.png)
-
-![image-20200527192403270](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20200527192403270.png)
-
-![image-20200527192549671](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20200527192549671.png)
-
-实习经历栏点击添加（其余类似）
-
-![image-20200527192800872](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20200527192800872.png)
-
-![image-20200527192905095](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20200527192905095.png)
-
+![1](https://ftp.bmp.ovh/imgs/2020/05/77beba31e1edfafe.png)
+![2](https://ftp.bmp.ovh/imgs/2020/05/8eb5a847a1b115be.png)
+![3](https://ftp.bmp.ovh/imgs/2020/05/8c708b0b4b6243da.png)
+![4](https://ftp.bmp.ovh/imgs/2020/05/bb927b62c1432b80.png)
+![5](https://ftp.bmp.ovh/imgs/2020/05/642ad7fde122da6c.png)
+![6](https://ftp.bmp.ovh/imgs/2020/05/d46f20727a81412a.png)
+![7](https://ftp.bmp.ovh/imgs/2020/05/53eb7ec8c3824f56.png)
+![8](https://ftp.bmp.ovh/imgs/2020/05/7119d32ea4a1c628.png)

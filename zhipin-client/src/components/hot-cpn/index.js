@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import {requestHotCPN} from '../../common/request'
+import LazyLoad from 'react-lazyload'
 
 export default class HotJob extends Component {
     state = {
         hotCPN: [],
         curIndex: 0
     }
-    componentWillMount() {
+    componentDidMount() {
         this.getHotCPN();
     }
 
@@ -21,21 +22,24 @@ export default class HotJob extends Component {
         let curIndex = this.state.curIndex;
         return (
             <div className='common-tab-box merge-city-company'>
-                <div class="box-title">热门企业</div>
+                <div className="box-title">热门企业</div>
                 <ul>
                     {hotCPN.map(ele => <li>
                         <div className="sub-li">
                                     <a href={"/company/"+ele.companyCode} target="_blank" className="company-info">
                                         <div className="img-box">
-                                            <img src={ele.logo}  alt="爱奇艺" />
+                                            <LazyLoad height={58}>
+                                                
+                                                <img src={ele.logo}  alt={ele.name} />
+                                            </LazyLoad>
                                         </div>
                                         <div className="conpany-text">
                                             <h4>{ele.name}</h4>
-                                            <p>{ele.finance}<span class="vline"></span>{ele.type}</p>
+                                            <p>{ele.finance}<span className="vline"></span>{ele.type}</p>
                                         </div>
                                     </a>
                                     <a href={"/company/"+ele.companyCode} target="_blank" className="about-info">
-                                        <p><span class="text-blue">{ele.jobVacancy}</span>个热招职位</p>
+                                        <p><span className="text-blue">{ele.jobVacancy}</span>个热招职位</p>
                                     </a>
                                 </div>
                     </li>)}

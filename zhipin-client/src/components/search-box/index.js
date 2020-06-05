@@ -37,7 +37,7 @@ class SearchBox extends Component {
         observer.trigger('setSearch', query)
         
     }
-    componentWillMount() {
+    componentDidMount() {
         document.addEventListener('click', (e)=>this.showSearchHistory(e))
     }
 
@@ -49,7 +49,7 @@ class SearchBox extends Component {
                 <button className="btn btn-search" onClick={() => {this.handleSearch()}}>搜索</button>
                 <div className="suggest-result" style={{display: this.state.isSearchHistoryShow?'block':'none'}}>
                     <ul>{
-                        this.props.searchHistory.map(ele => <li onClick={this.handleSetSearch.bind(this,ele)}>{ele}</li>)
+                        this.props.searchHistory.map(ele => <li onClick={this.handleSetSearch.bind(this,ele)} key={ele}>{ele}</li>)
                         }</ul>
                         </div>
             </div>

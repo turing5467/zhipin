@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import {requestHotJob} from '../../common/request'
+import LazyLoad from 'react-lazyload';
 
 export default class HotJob extends Component {
     state = {
         hotJob: [],
         curIndex: 0
     }
-    componentWillMount() {
+    componentDidMount() {
         this.getHotJob();
     }
 
@@ -21,7 +22,7 @@ export default class HotJob extends Component {
         let curIndex = this.state.curIndex;
         return (
             <div className='common-tab-box merge-city-job'>
-                <div class="box-title">热招职位</div>
+                <div className="box-title">热招职位</div>
                 <h3>
                     {hotJob.map((ele, index) => (<span 
                     key={index} 
@@ -34,14 +35,18 @@ export default class HotJob extends Component {
                 </h3>
                 <ul>
                     { hotJob[curIndex] && hotJob[curIndex].jobList.map( ele => <li>
-                        <div class="sub-li">
+                        <div className="sub-li">
                                         <a href={"/company/"+ele.companyCode} className="user-info" target="_blank">
-                                            <p><img src={ele.logo} alt="唯品会" /></p>
+                                            <p>
+                                                <LazyLoad height={58}>
+                                                    <img src={ele.logo}/>
+                                                </LazyLoad>
+                                            </p>
                                         </a>
                                         <a href={"/job_detail/"+ele.jobCode}className="job-info" target="_blank">
                                             <p className="name"><span className="name-text">{ele.jobName}</span></p>
-                                            <p className="job-text">{ele.city}<span class="vline"></span>{ele.exprience}<span class="vline"></span>{ele.eduBG}</p>
-                                            <p class="salary">{ele.salary}</p>
+                                            <p className="job-text">{ele.city}<span className="vline"></span>{ele.exprience}<span className="vline"></span>{ele.eduBG}</p>
+                                            <p className="salary">{ele.salary}</p>
                                         </a>
                                     </div>
                     </li> )}
