@@ -4,17 +4,18 @@ import {BrowserRouter as Router,Switch, Route} from 'react-router-dom';
 import {Provider} from 'react-redux'
 import store from './store'
 import Home from './views/home'
+import Login from './views/login'
+import Register from './views/register'
 import Jobs from './views/jobs'
-import CPNDetail from './views/company/detail'
-import JobDetail from './views/jobs/detail'
 import Company from './views/company'
 import Footer from './components/footer'
 import CityBox from './components/city-box'
-import Register from './views/register'
-import Login from './views/login'
 import Resume from './views/resume'
 import Setting from './views/setting'
 import Chat from './views/chat'
+
+import CPNDetail from './views/company/detail'
+import JobDetail from './views/jobs/detail'
 
 
 function App() {

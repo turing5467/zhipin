@@ -1,13 +1,13 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { Form, Input} from 'antd';
 // import observer from '../../common/observer'
 // import {requestUpdateDetail} from '../../common/request'
 import FormCPN from './FormCPN';
 
-export default class SuperiorityForm extends Component {
+export default class SuperiorityForm extends PureComponent {
 
     render() {
-
+        console.log('superiority Rendering');
         return (<FormCPN title={"个人优势"} attrName={"showSuperiorityForm"} attrGetter={"getSuperiority"} offset={17}>
             
             <Form.Item name='superiority' >

@@ -4,7 +4,6 @@ import SuperiorityForm from '../../components/resume/superiority'
 import InternForm from '../../components/resume/intern'
 import ProjectForm from '../../components/resume/project'
 import EducationForm from '../../components/resume/education'
-// import CertForm from '../../components/resume/certificate'
 import UploadForm from '../../components/resume/upload'
 import observer from '../../common/observer'
 import {requestGetDetail, requestGetUser, uploadAvatarURL, requestUpdateDetail} from '../../common/request'
@@ -58,8 +57,6 @@ class Resume extends Component {
         })
         let id = Cookies.get('userId')
         requestGetUser(id).then(data => {
-            console.log('this');
-            console.log(this);
             
             let phone = data.user.phone;
             this.setState({phone}, this.getDetail)
@@ -76,7 +73,6 @@ class Resume extends Component {
             observer.trigger('getUser', data.user)
             observer.trigger('getSuperiority', data.user)
             observer.trigger('getPhone', phone)
-            // observer.trigger('getCert', data.user)
         })
     }
 
@@ -144,6 +140,8 @@ class Resume extends Component {
 
 
     render() {
+        console.log('resume组件 Rendering');
+        
         let {tags} = this
         let {user,showInfoForm, showSuperiorityForm, showInternForm, showProjectForm, showEducationForm} = this.state
         this.pSpan = '' 
@@ -221,7 +219,7 @@ class Resume extends Component {
                                             <span>添加</span></a>
                                         </h3>
                                         <ul>
-                                            {user.intern.map((ele,index, arr) => (<li><div className="primary-info"><div className="info-text"><h4 className="name">{ele.CPNName}</h4><span className="gray period">{moment(new Date(ele.starttime).toLocaleDateString()).format('YYYY.MM')}-{moment(new Date(ele.endtime).toLocaleDateString()).format('YYYY.MM')}</span></div><h4><span className="prev-line">{ele.department}</span><span className="prev-line">{ele.jobName}</span></h4><div className="info-text"><span className="text-type">内容：</span>{ele.content}</div><div className="info-text"><span className="text-type">业绩：</span>{ele.profit}</div></div><div className="op"><a href="javascript:;" onClick={()=>{this.removeItem('intern', index)}}    className="link-delete"><i className='fz-resume fz-delete'></i><span>删除</span></a>
+                                            {user.intern.map((ele,index, arr) => (<li key={ele.CPNName}><div className="primary-info"><div className="info-text"><h4 className="name">{ele.CPNName}</h4><span className="gray period">{moment(new Date(ele.starttime).toLocaleDateString()).format('YYYY.MM')}-{moment(new Date(ele.endtime).toLocaleDateString()).format('YYYY.MM')}</span></div><h4><span className="prev-line">{ele.department}</span><span className="prev-line">{ele.jobName}</span></h4><div className="info-text"><span className="text-type">内容：</span>{ele.content}</div><div className="info-text"><span className="text-type">业绩：</span>{ele.profit}</div></div><div className="op"><a href="javascript:;" onClick={()=>{this.removeItem('intern', index)}}    className="link-delete"><i className='fz-resume fz-delete'></i><span>删除</span></a>
                                                 <a href="javascript:;" className="link-edit" onClick={() => {
                                                     this.setAndTrigger('showInternForm')
                                                     observer.trigger('getIntern',arr,index)
@@ -240,7 +238,7 @@ class Resume extends Component {
                                         }}><i className="fz-resume fz-add"></i><span>添加</span></a>
                                         </h3>
                                         <ul>
-                                            {user.project.map((ele,index,arr) => (<li><div className="primary-info"><i className="icon-garbage"></i><div className="info-text"><h4 className="name">{ele.name}</h4><span className="gray period">{moment(new Date(ele.starttime).toLocaleDateString()).format('YYYY.MM')}-{moment(new Date(ele.endtime).toLocaleDateString()).format('YYYY.MM')}</span></div><div className="info-text"><h4><span className="prev-line">{ele.job}</span></h4></div><div className="info-text"><span className="text-type">内容：</span>{ele.content}</div><div className="info-text"><span className="text-type">业绩：</span>{ele.profit}</div><div className="info-text"><span className="text-type">项目链接：</span>{ele.link}</div></div><div className="op"><a href="javascript:;" onClick={()=>{this.removeItem('project', index)}}    className="link-delete"><i className='fz-resume fz-delete'></i><span>删除</span></a><a href="javascript:;" className="link-edit" onClick={()=>{
+                                            {user.project.map((ele,index,arr) => (<li key={ele.name}><div className="primary-info" ><i className="icon-garbage"></i><div className="info-text"><h4 className="name">{ele.name}</h4><span className="gray period">{moment(new Date(ele.starttime).toLocaleDateString()).format('YYYY.MM')}-{moment(new Date(ele.endtime).toLocaleDateString()).format('YYYY.MM')}</span></div><div className="info-text"><h4><span className="prev-line">{ele.job}</span></h4></div><div className="info-text"><span className="text-type">内容：</span>{ele.content}</div><div className="info-text"><span className="text-type">业绩：</span>{ele.profit}</div><div className="info-text"><span className="text-type">项目链接：</span>{ele.link}</div></div><div className="op"><a href="javascript:;" onClick={()=>{this.removeItem('project', index)}}    className="link-delete"><i className='fz-resume fz-delete'></i><span>删除</span></a><a href="javascript:;" className="link-edit" onClick={()=>{
                                                 this.setAndTrigger('showProjectForm');
                                                 observer.trigger('getProject', arr, index)
                                             }}><i className="fz-resume fz-edit"></i><span>编辑</span></a></div>
@@ -257,7 +255,7 @@ class Resume extends Component {
                                         }}><i className="fz-resume fz-add"></i><span>添加</span></a>
                                         </h3>
                                         <ul>
-                                            {user.education.map((ele, index, arr) => (<li>
+                                            {user.education.map((ele, index, arr) => (<li key={ele.school}>
                                                 <div className="primary-info">
                                                     <div className="info-text"><h4 className="name">{ele.school}</h4><span className="gray period">{ele.startYear}-{ele.endYear}</span></div><div className="info-text"><h4><span className="prev-line">{ele.specialty}</span><span className="prev-line">{ele.eduBG}</span></h4>
                                                     </div>
@@ -273,16 +271,6 @@ class Resume extends Component {
                                     </div>
                                     <EducationForm />
                                 </div>
-                                {/* <div id="certification" className="resume-item resume-certification">
-                                    <div className="item-primary">
-                                        <h3 className="title"> 资格证书 <a href="javascript:;" className="link-add" onClick={() => {
-                                            this.setAndTrigger('showCertForm')
-                                        }}><i className="fz-resume fz-add"></i><span>添加</span></a></h3><ul><li ka="edit-certificate-click" className=""><div className="primary-info"><div className="visible-wrap"><div>
-                                            {user.certificate.map(ele => (<span className="resume-cert-tag">{ele}</span>))}</div></div></div><div className="op"><a href="javascript:;" ka="edit-certificate-click" className="link-edit" onClick={() => {
-                                            this.setAndTrigger('showCertForm')
-                                        }}><i className="fz-resume fz-edit"></i><span>编辑</span></a></div></li></ul>
-                                    </div>
-                                </div> */}
                             </div>
                         </div>
                     </div>
@@ -290,7 +278,6 @@ class Resume extends Component {
                         <UploadForm />
                     </div>
                 </div>
-                {/* <CertForm /> */}
             </div>
         )
     }

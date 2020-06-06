@@ -146,7 +146,7 @@ import {requestLogin} from '../../common/request'
     
     render() {
 
-        
+        console.log('login 组件 rendering');
 
         let {tabIndex, phone_1ErrInfo, phone_2ErrInfo,pwdErrInfo, codeErrInfo,codeAsideText} = this.state
         return (

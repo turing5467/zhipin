@@ -87,9 +87,15 @@ export default class FormArrCPN extends Component {
         observer.trigger(name_)
     }
 
+    shouldComponentUpdate = (nextProps, nextState) => {
+        let {attrName} = this.props
+        return this.state[attrName] !== nextState[attrName]
+    }
+
     render() {
         let {attrName, children, title} = this.props
         let {[attrName]: showFlag, index} = this.state
+        console.log('formArrcpn Rendering' + title);
         return (
             <div className="item-form" style={{display:showFlag?'block':'none'}}>
                 <h3 className="title">{index===-1?'添加':'编辑'}{title}</h3>

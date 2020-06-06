@@ -33,6 +33,7 @@ export default class JobMenu extends Component {
     }
 
     render() {
+        console.log('job-menu 组件 rendering');
         let jobs = this.state.jobs;
         let isShowAll = this.state.isShowAll;
         

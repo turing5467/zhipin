@@ -6,6 +6,8 @@ import HotCPN from '../../components/hot-cpn'
 
 export default class Home extends Component {
     render() {
+        console.log('Home组件 Rendering');
+        
         return (
             <div className='home-box'>
                 <div className='inner'>

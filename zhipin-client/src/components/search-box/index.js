@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import {Input, Row} from 'antd'
 import SelectCity from './selectCity'
 import {connect} from 'react-redux'
@@ -7,7 +7,7 @@ import {withRouter} from 'react-router-dom'
 import observer from '../../common/observer'
 
 
-class SearchBox extends Component {
+class SearchBox extends PureComponent {
     constructor(props) {
         super(props);
         this.InputBox = null;
@@ -42,6 +42,7 @@ class SearchBox extends Component {
     }
 
     render() {
+        console.log('search-box 组件 rendering');
         return (
             <div ref={node => this.InputBox = node} className='search-box'>
                 <Input value={this.state.query} onChange={(e) => this.handleChange(e)} width="884px" prefix={<SelectCity />} 

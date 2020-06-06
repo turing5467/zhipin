@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { Menu, Dropdown, Button } from 'antd';
 import observer from '../../common/observer';
-export default class SelectBox extends Component {
+export default class SelectBox extends PureComponent {
 
     requirements = [
         {
@@ -96,6 +96,7 @@ export default class SelectBox extends Component {
     }
 
     render() {
+        console.log('select-box 组件 rendering');
         let requirements = this.requirements;
 
         return (

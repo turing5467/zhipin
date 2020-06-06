@@ -49,10 +49,18 @@ export default class SuperiorityForm extends Component {
         })
     }
 
+    shouldComponentUpdate = (nextProps, nextState) => {
+        let {attrName} = this.props
+        return this.state[attrName] !== nextState[attrName]
+    }
+
     render() {
         // let {attrName} = this.props
         let {title, attrName, children, offset} = this.props
         let attrVal = this.state[attrName]
+
+        console.log('formCPN Rendering' + title);
+
         return (
             <div className="item-form" style={{display: attrVal?'block':'none'}}>
                 <h3 className="title">{title}</h3>

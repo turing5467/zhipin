@@ -16,9 +16,10 @@ export default class JobList extends Component {
         condition: [],
         phone: ''
     }
-    getJobList(page, condition) {
-        // console.log(condition);
+    getJobList(page=1, condition=[{}]) {
         
+        
+        condition = condition.length === 0?[{}]:condition
         requestJobList(page, {$and: condition}).then((data) => {
             
             this.setState({jobList: data.list, total: data.total, CPNList: data.list && data.list.map(ele => ({}))}, () => {
@@ -28,7 +29,8 @@ export default class JobList extends Component {
                     
                     requestCPNDetail(code).then(data => {
                         CPNList[i] = data.data || {};
-                        this.setState({CPNList})
+                        //只在最后一次赋值完成后修改state
+                        i === jobList.length -1 && this.setState({CPNList})
                         
                     })
                 }
@@ -63,6 +65,7 @@ export default class JobList extends Component {
         
     }
     componentDidMount() {
+
         observer.addlisten('setCity', (city) => {
             
             let {condition} = this.state
@@ -98,7 +101,7 @@ export default class JobList extends Component {
         observer.addlisten('setCondition', (condition) => {
             if(!condition) {
                 //清空筛选条件
-                this.getJobList(1, [{}])
+                this.getJobList()
             }else {
                 condition = [...this.state.condition, ...condition];
                 // this.setState({condition})  
@@ -144,8 +147,9 @@ export default class JobList extends Component {
     }
 
     render() {
+        console.log('job-list 组件 rendering');
         let {jobList,CPNList,  total, canSubmit} = this.state;
-        
+        jobList = jobList || [];
         return (
             <div id="main">
                 <div className="inner">

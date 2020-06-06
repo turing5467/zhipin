@@ -18,6 +18,7 @@ export default class HotJob extends Component {
     }
 
     render() {
+        console.log('hot-cpn 组件 rendering');
         let hotCPN = this.state.hotCPN;
         let curIndex = this.state.curIndex;
         return (

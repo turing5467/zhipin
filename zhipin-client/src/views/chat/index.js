@@ -128,6 +128,8 @@ export default class Chat extends Component {
     
 
     render() {
+        console.log('chat组件 Rendering');
+        
         
         let {chatInfo, selected, canSent, showResumePanel} = this.state;
         let curChat = chatInfo[selected] || {chatMan: {}, chatJob: {}, chatCompany: '', chatHistory: []}

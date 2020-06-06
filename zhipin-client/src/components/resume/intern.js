@@ -1,10 +1,11 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { Form, Input,  DatePicker} from 'antd';
 import FormArrCPN from './FormArrCPN';
 
-export default class InternForm extends Component {
+export default class InternForm extends PureComponent {
 
     render() {
+        console.log('intern Rendering');
         return (
             <FormArrCPN arrName={"intern"} attrName={"showInternForm"} title={"实习经历"}>
                 <div className="form-item form-item-required">

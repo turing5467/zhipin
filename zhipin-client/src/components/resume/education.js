@@ -1,14 +1,9 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { Form, Input, Radio, Select} from 'antd';
 import FormArrCPN from './FormArrCPN';
 const { Option } = Select;
 
-export default class ProjectForm extends Component {
-
-
-    state = {
-        endYear: []
-    }
+export default class EducationForm extends PureComponent {
 
     constructor(props) {
         super(props);
@@ -16,20 +11,28 @@ export default class ProjectForm extends Component {
         let Y = new Date().getFullYear();
         let gap = Y - 1990;
         this.startYear = Array.from(new Array(gap + 1).keys(), ele => ele + 1990).reverse()
-        this.startYear.push('1990年以前')
+        this.startYear.push('1990年以前');
     }
 
+    // state = {
+    //     endYear: []
+    // }
 
+    // change = (v) =>{
+    //     this.setState({
+    //         endYear: Array.from(new Array(8).keys(), ele => ele + v + 1)
+    //     })
+    // }
 
-    change = (v) =>{
-        this.setState({
-            endYear: Array.from(new Array(8).keys(), ele => ele + v + 1)
-        })
-    }
+    // shouldComponentUpdate = (np, ns) => {
+    //     return this.state.endYear[0] !== ns.endYear[0]
+    // }
 
 
     render() {
-        let {endYear} = this.state
+        // let {endYear} = this.state;
+        console.log('education Rendering');
+        // console.log(endYear);
         
         return (
             <FormArrCPN arrName={"education"} attrName={"showEducationForm"}  title={"教育经历"}>
@@ -84,15 +87,15 @@ export default class ProjectForm extends Component {
                         <div className="item-label">时间段</div>
                         <div className="item-content">
                         <Form.Item name="startYear" rules={[{ required: true , message: '请填写时间段'}]}>
-                        <Select placeholder="选择年份" onChange={this.change}>
-                            {this.startYear.map(ele => (<Option value={ele}>{ele}</Option>))}
-                        </Select>
+                            <Select placeholder="选择年份">
+                                {this.startYear.map(ele => (<Option value={ele}>{ele}</Option>))}
+                            </Select>
                         </Form.Item>
                         <span className="date-scope-text">至</span>
                         <Form.Item name="endYear" rules={[{ required: true , message: '请填写时间段'}]}>
-                        <Select placeholder="选择年份" disabled={endYear.length>0?false:true} onChange={this.change}>
-                            {endYear.map(ele => (<Option value={ele}>{ele}</Option>))}
-                        </Select>
+                            <Select placeholder="选择年份" >
+                                {this.startYear.map(ele => (<Option value={ele}>{ele}</Option>))}
+                            </Select>
                         </Form.Item>
                         </div>
                     </div>

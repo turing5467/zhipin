@@ -1,12 +1,13 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { Form, Input, Select ,DatePicker} from 'antd';
 import FormCPN from './FormCPN';
 const { Option } = Select;
 
-export default class InfoForm extends Component {
+export default class InfoForm extends PureComponent {
 
     render() {
-
+        console.log('userinfo rendering');
+        
         return (<FormCPN title={"基本信息"} attrName={"showInfoForm"} attrGetter={"getUser"}  offset={8}>
             <div className="form-item form-item-required">
                 <div className="item-label">姓名</div>

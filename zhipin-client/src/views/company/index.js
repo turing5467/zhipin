@@ -73,11 +73,6 @@ import Lazyload from 'react-lazyload'
 
     getCPNList(page) {
         requestCPNList(page).then(data => {
-            console.log(data);
-            data.list.forEach(ele => {
-                console.log(ele.hot_jobs);
-                
-            })
             this.setState({cpn_list: data.list,
                 total: data.total
             })
@@ -89,6 +84,8 @@ import Lazyload from 'react-lazyload'
 
 
     render() {
+        console.log('cpn 组件 rendering');
+        
         let {selected,filter, cpn_list, total} = this.state;
 
         return (

@@ -18,6 +18,7 @@ export default class HotJob extends Component {
     }
 
     render() {
+        console.log('hot-job 组件 rendering');
         let hotJob = this.state.hotJob;
         let curIndex = this.state.curIndex;
         return (

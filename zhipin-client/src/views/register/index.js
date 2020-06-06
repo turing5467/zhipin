@@ -91,7 +91,7 @@ export default class Register extends Component {
     }
 
     render() {
-        
+        console.log('register 组件 rendering');
         let {phoneErrInfo, codeErrInfo, checkedErrInfo, codeAsideText} = this.state;
 
         return (

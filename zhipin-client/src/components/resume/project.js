@@ -1,10 +1,11 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { Form, Input, DatePicker} from 'antd';
 import FormArrCPN from './FormArrCPN';
 
-export default class ProjectForm extends Component {
+export default class ProjectForm extends PureComponent {
 
     render() {
+        console.log('project Rendering');
         return (
             <FormArrCPN arrName={"project"} attrName={"showProjectForm"} title={"项目经历"}>
                 <div className="form-item form-item-required">

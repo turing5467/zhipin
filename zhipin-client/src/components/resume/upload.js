@@ -1,9 +1,9 @@
 import {Upload, Button, message} from 'antd'
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import Cookies from 'js-cookie'
 import {uploadResumeURL, requestGetUser} from '../../common/request'
 
-export default class UploadForm extends Component {
+export default class UploadForm extends PureComponent {
 
     constructor(props) {
         super(props);
@@ -43,6 +43,7 @@ export default class UploadForm extends Component {
     }
 
     render() {
+        console.log('upload Rendering');
         return (
             <div className="sider-box sider-resume">
                 <div className="resume-attachment">

@@ -47,7 +47,7 @@ export default class Setting extends Component {
     }
 
     render() {
-        console.log(this);
+        console.log('setting组件 Rendering');
         
         let {isPwdSet, phone} = this.state
         let layout = {

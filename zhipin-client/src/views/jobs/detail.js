@@ -71,7 +71,7 @@ class JobDetail extends Component {
     }
 
     render() {
-
+        console.log('job_detail 组件 rendering');
         let {jobDetail: job, CPNDetail: cpn, showDesc} = this.state;
         
         return (

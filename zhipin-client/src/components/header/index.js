@@ -41,6 +41,7 @@ import {requestGetUser, requestGetDetail} from '../../common/request'
     }
     
     render() {
+        console.log('header 组件 rendering');
         let {user} = this.state
         
         return (

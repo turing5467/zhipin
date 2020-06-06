@@ -33,7 +33,14 @@ import observer from '../../common/observer'
         this.getCityTitle();
         this.getCities();
      }
+     
+     shouldComponentUpdate(props) {
+         return this.props.isCityShow !== props.isCityShow;
+     }
+
     render() {
+        console.log('city-box rendering');
+        
         let cityTitle = this.state.cityTitle
         let cities = this.state.cities
         let curIndex = this.state.curIndex

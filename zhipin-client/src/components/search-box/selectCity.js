@@ -7,7 +7,7 @@ class SelectCity extends Component {
         super(props);
     }
     render() {
-        
+        console.log('selectCity 组件 rendering');
         return (<div className="city-sel" onClick={() => {
             this.props.showCity(true);
         }}>

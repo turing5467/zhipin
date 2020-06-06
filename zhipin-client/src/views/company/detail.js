@@ -34,6 +34,7 @@ class CPNDetail extends Component {
     }
 
     render() {
+        console.log('cpn_detail 组件 rendering');
         let {data, showManager, showBusiness, showDesc} = this.state
         
         return ( 

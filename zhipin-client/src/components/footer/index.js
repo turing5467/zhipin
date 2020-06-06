@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 
 export default class Footer extends Component {
     render() {
+        console.log('footer 组件 rendering');
         return (
             <div id="footer">
                 <div className="inner home-inner">
