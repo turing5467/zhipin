@@ -12,7 +12,7 @@ router.get('/downloadResume', function(req, res, next) {
         
         let filename = files.find(ele => ele.startsWith(phone));
         // let pathname = path.join(__dirname, '../public/upload/resume/'+filename)
-        let url = 'http://172.20.10.4:3000/upload/resume/' + filename
+        let url = 'http://192.168.0.2:3000/upload/resume/' + filename
         res.send(url)
         // res.set({
         //     "Content-Type":"application/msword",//告诉浏览器这是一个二进制文件

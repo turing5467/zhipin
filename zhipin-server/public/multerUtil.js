@@ -3,7 +3,7 @@ let userDetailModel = require('../models/userDetailModel')
 var fs = require('fs');
 var path = require('path');
 
-let baseURL = 'http://172.20.10.4:3000/upload/'
+let baseURL = 'http://192.168.0.2:3000/upload/'
 const resumeStorage = multer.diskStorage({
   //设置上传后文件路径，uploads文件夹会自动创建。
   destination: function (req, file, cb) {
