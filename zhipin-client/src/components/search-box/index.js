@@ -1,5 +1,5 @@
-import React, { PureComponent } from 'react'
-import {Input, Row} from 'antd'
+import React, { useEffect,useState, useRef } from 'react'
+import {Input} from 'antd'
 import SelectCity from './selectCity'
 import {connect} from 'react-redux'
 import {addSearchHistory} from '../../store/actions'
@@ -7,55 +7,73 @@ import {withRouter} from 'react-router-dom'
 import observer from '../../common/observer'
 
 
-class SearchBox extends PureComponent {
-    constructor(props) {
-        super(props);
-        this.InputBox = null;
-    }
-    state = {
-        isSearchHistoryShow:false,
-        query: ''
-    }
-    showSearchHistory(e) {
-        let flag = this.InputBox&&this.InputBox.contains(e.target);
-        this.setState({isSearchHistoryShow: flag})
-    }
-    handleChange(e){
-        this.setState({query: e.target.value})
-    }
-    handleSearch() {
-        this.props.history.push('/jobs?query='+this.state.query);
-        this.props.addSearchHistory(this.state.query)
-        observer.trigger('setSearch', this.state.query)
-    }
-    handleSetSearch(query) {
-        
-        //修改输入框的值
-        this.setState({query: query})
-        //跳转页面
-        this.props.history.push('/jobs?query='+query);
-        observer.trigger('setSearch', query)
-        
-    }
-    componentDidMount() {
-        document.addEventListener('click', (e)=>this.showSearchHistory(e))
+function SearchBox(props) { 
+    const [showSearchHistoryFlag, setShowSearchHistoryFlag] = useState(false)
+    const [query, setQuery] = useState('')
+    const inputRef = useRef();
+
+    function handleChange(e) {
+        setQuery(e.target.value);
     }
 
-    render() {
-        console.log('search-box 组件 rendering');
+    //点击搜索按钮
+    function handleSearch() {
+        props.history.push('/jobs?query='+query);
+        props.addSearchHistory(query)
+        observer.trigger('setSearch', query)
+    }
+
+    //点击搜索历史中的项目
+    function handleSetSearch(query) {
+        
+        //修改输入框的值
+        setQuery(query)
+        //跳转页面
+        props.history.push('/jobs?query='+query);
+        observer.trigger('setSearch', query)
+    }
+
+    function showSearchHistory(e) {
+        
+        let flag = inputRef.current && inputRef.current.contains(e.target);
+        if(flag === true) {
+            if(!showSearchHistoryFlag) {
+                setShowSearchHistoryFlag(true)
+            }else {
+                return
+            }
+
+        }else {
+            if(showSearchHistory){
+                setShowSearchHistoryFlag(false)
+            }else {
+                return
+            }
+        }
+
+        
+    }
+
+    useEffect(() => {
+        document.addEventListener('click', showSearchHistory)
+        return () => {
+            document.removeEventListener('click', showSearchHistory)
+        }
+    }, [])
+
+    console.log('search-box 组件 rendering');
         return (
-            <div ref={node => this.InputBox = node} className='search-box'>
-                <Input value={this.state.query} onChange={(e) => this.handleChange(e)} width="884px" prefix={<SelectCity />} 
+            <div ref={inputRef} className='search-box'>
+                <Input value={query} onChange={handleChange} width="884px" prefix={<SelectCity />} 
                 placeholder="搜索职位" />
-                <button className="btn btn-search" onClick={() => {this.handleSearch()}}>搜索</button>
-                <div className="suggest-result" style={{display: this.state.isSearchHistoryShow?'block':'none'}}>
+                <button className="btn btn-search" onClick={handleSearch}>搜索</button>
+                <div className="suggest-result" style={{display: showSearchHistoryFlag?'block':'none'}}>
                     <ul>{
-                        this.props.searchHistory.map(ele => <li onClick={this.handleSetSearch.bind(this,ele)} key={ele}>{ele}</li>)
+                        props.searchHistory.map(ele => <li onClick={handleSetSearch.bind(this, ele)} key={ele}>{ele}</li>)
                         }</ul>
                         </div>
             </div>
         )
-    } 
 }
 
 export default withRouter(connect(state => ({

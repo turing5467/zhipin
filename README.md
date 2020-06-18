@@ -27,11 +27,14 @@ Boss直聘仿写，实现基本功能
 #### 亮点
 
 1. 对axios进行封装，降低日后维护成本
-2. 
+
+   
 
 #### 性能优化
 
-1. 图片加载
+1. 图片懒加载，提高页面加载速度
+
+2. 使用React.PureComponent , shouldComponentUpdate来优化渲染（有当组件props状态改变时才会重新渲染）
 
    
 

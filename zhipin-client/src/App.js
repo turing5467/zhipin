@@ -1,21 +1,32 @@
-import React from 'react';
-import Header from './components/header/index';
+import React , {lazy, Suspense}from 'react';
 import {BrowserRouter as Router,Switch, Route} from 'react-router-dom';
-import {Provider} from 'react-redux'
-import store from './store'
-import Home from './views/home'
-import Login from './views/login'
-import Register from './views/register'
-import Jobs from './views/jobs'
-import Company from './views/company'
-import Footer from './components/footer'
-import CityBox from './components/city-box'
-import Resume from './views/resume'
-import Setting from './views/setting'
-import Chat from './views/chat'
+import {Provider} from 'react-redux';
+import store from './store';
+import Header from './components/header/index';
+import Footer from './components/footer';
 
-import CPNDetail from './views/company/detail'
-import JobDetail from './views/jobs/detail'
+const Home = lazy(() => import('./views/home'))
+
+const Login = lazy(() => import('./views/login'))
+
+const Register = lazy(() => import('./views/register'))
+
+const Jobs = lazy(() => import('./views/jobs'))
+
+const Company = lazy(() => import('./views/company'))
+
+const CityBox = lazy(() => import('./components/city-box'))
+
+const Resume = lazy(() => import('./views/resume'))
+
+const Setting = lazy(() => import('./views/setting'))
+
+const Chat = lazy(() => import('./views/chat'))
+
+const CPNDetail = lazy(() => import('./views/company/detail'))
+
+const JobDetail = lazy(() => import('./views/jobs/detail'))
+
 
 
 function App() {
@@ -23,21 +34,24 @@ function App() {
     <Provider store={store}>
       <div className="App search-job-list-wrap">
         <Router>
-        <Header />
-          <Switch>
-            <Route path='/' exact component={Home}></Route>
-            <Route path='/jobs' component={Jobs}></Route>
-            <Route path='/company'exact component={Company}></Route>
-            <Route path="/company/:code" component={CPNDetail} />
-            <Route path="/job_detail/:code" component={JobDetail} />
-            <Route path="/register" component={Register} />
-            <Route path="/login" component={Login} />
-            <Route path="/resume" component={Resume} />
-            <Route path="/setting" component={Setting} />
-            <Route path="/chat" component={Chat} />
-          </Switch>
+          <Header />
+          <Suspense fallback={<div>loading...</div>}>
+            <Switch>
+              <Route path='/' exact component={Home}></Route>
+              <Route path='/jobs' component={Jobs}></Route>
+              <Route path='/company'exact component={Company}></Route>
+              <Route path="/company/:code" component={CPNDetail} />
+              <Route path="/job_detail/:code" component={JobDetail} />
+              <Route path="/register" component={Register} />
+              <Route path="/login" component={Login} />
+              <Route path="/resume" component={Resume} />
+              <Route path="/setting" component={Setting} />
+              <Route path="/chat" component={Chat} />
+            </Switch>
+            <CityBox />
+          </Suspense>
         <Footer />
-        <CityBox />
+          
         </Router>
         
       </div>

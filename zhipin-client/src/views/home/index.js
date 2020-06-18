@@ -4,9 +4,8 @@ import HotJob from '../../components/hot-job'
 import HotCPN from '../../components/hot-cpn'
 
 
-export default class Home extends Component {
-    render() {
-        console.log('Home组件 Rendering');
+export default function Home() { 
+    console.log('Home组件 Rendering');
         
         return (
             <div className='home-box'>
@@ -17,5 +16,4 @@ export default class Home extends Component {
                 </div>
             </div>
         )
-    }
 }

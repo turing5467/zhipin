@@ -22,9 +22,16 @@ export default function(state = defaultState, action) {
                 city: action.city
             }
         case ADDSEARCHHISTORY: 
+            let flag = (state.searchHistory).indexOf(action.item);
+            let searchHistory = state.searchHistory;
+            if(flag === -1) {
+                searchHistory = [action.item, ...state.searchHistory]
+            }else {
+                searchHistory[0] = searchHistory.splice(flag, 1, searchHistory[0])
+            }
             return {
                 ...state,
-                searchHistory: [...state.searchHistory, action.item]
+                searchHistory
             }
         case LOGIN:
             return{

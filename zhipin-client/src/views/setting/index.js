@@ -1,63 +1,51 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import {requestGetUser, requestUpdateUser} from '../../common/request'
 import Cookies from 'js-cookie'
 import { Form, Input, Button, message} from 'antd';
 
-export default class Setting extends Component {
 
-    state = {
-        isPwdSet: false,
-        phone: ''
-    }
-
-    componentDidMount(){
-        requestGetUser(Cookies.get('userId')).then(data => {
-            // console.log(data);
-            let {pwd,phone} = data.user
-            this.setState({isPwdSet: pwd !== '', phone,pwd})
-        })
-    }
-
-    onSetPwd = (values) => {
+export default function Setting() { 
+    const [pwdFlag, setPwdFlag] = useState(false)
+    const [phone, setPhone] = useState('')
+    const [pwd, setPwd] = useState('')
+    
+    const onSetPwd = (values) => {
         let {pwd, rePwd} = values;
         if(pwd === rePwd) {
-            this.changePwd(pwd)
+            changePwd(pwd)
         }else {
             message.error('两次输入密码不一致')
         }
     }
-    onChangePwd = (values) => {
-        console.log(values);
+    const onChangePwd = (values) => {
         //旧密码不对
         let {oldPwd, newPwd, rePwd} = values
-        let {pwd} = this.state
         if(oldPwd === pwd) {
             if(newPwd === rePwd) {
-                this.changePwd(newPwd)
+                changePwd(newPwd)
             }
         }else {
             message.error('旧密码输入错误,请重新输入')
         }
     }
-    changePwd = (pwd) => {
+    const changePwd = (pwd) => {
         requestUpdateUser(Cookies.get('userId'), pwd).then(data => {
             message.success('密码修改成功')
             window.location.reload()
         })
     }
 
-    render() {
-        console.log('setting组件 Rendering');
-        
-        let {isPwdSet, phone} = this.state
-        let layout = {
-            labelCol: { span: 4 },
-            wrapperCol: { span: 8 },
-        }
-        let btnLayout = {
-            wrapperCol: { offset: 4, span: 16 },
-        }
-        
+    useEffect(() => {
+        requestGetUser(Cookies.get('userId')).then(data => {
+            
+            let {pwd,phone} = data.user
+            setPwdFlag(pwd !== '')
+            setPhone(phone)
+            setPwd(pwd);
+        })
+    })
+
+    console.log('setting组件 Rendering');
         return (
             <div id="main" className="inner">
                 <div className="account">
@@ -75,11 +63,12 @@ export default class Setting extends Component {
                                     <div className="item-content" ><span className="text-gray">{phone.replace(phone.substring(3,7), '****')}</span></div>
                                 </div>
                                 <Form
-                                    style={{display:isPwdSet?'none':'block'}}
-                                    {...layout}
+                                    style={{display:pwdFlag?'none':'block'}} 
+                                    labelCol={{ span: 4 }}
+                                    wrapperCol={{ span: 8 }} 
                                     name="basic"
                                     initialValues={{ remember: true }}
-                                    onFinish={this.onSetPwd}
+                                    onFinish={onSetPwd}
                                     className="ant-form ant-form-horizontal"
                                     >
                                     
@@ -98,16 +87,17 @@ export default class Setting extends Component {
                                         rules={[{ required: true, message: 'Please input your username!' }]}>
                                         <Input.Password placeholder="请确认密码"/>
                                     </Form.Item>
-                                    <Form.Item {...btnLayout}>
+                                    <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
                                         <Button type="primary" htmlType="submit">
                                         设置密码
                                         </Button>
                                     </Form.Item>
                                 </Form>
                                 <Form
-                                    style={{display: !isPwdSet?'none':'block'}}
-                                    {...layout}
-                                    onFinish={this.onChangePwd}
+                                    style={{display: !pwdFlag?'none':'block'}}
+                                     labelCol={{ span: 4 }}
+                                    wrapperCol={{ span: 8 }} 
+                                    onFinish={onChangePwd}
                                     className="ant-form ant-form-horizontal"
                                     >
                                     <Form.Item
@@ -131,7 +121,7 @@ export default class Setting extends Component {
                                         rules={[{ required: true, message: '请再次输入新密码' }]}>
                                         <Input.Password placeholder="确认新密码"/>
                                     </Form.Item>
-                                    <Form.Item {...btnLayout}>
+                                    <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
                                         <Button type="primary" htmlType="submit">
                                         确认更改密码
                                         </Button>
@@ -143,5 +133,4 @@ export default class Setting extends Component {
                 </div>
             </div>
         )
-    }
-}
+ }

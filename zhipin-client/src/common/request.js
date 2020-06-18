@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-let baseURL = 'http://172.20.10.4:8088/zhipin'
+let baseURL = 'http://192.168.0.2:8088/zhipin'
 
 export const uploadResumeURL = baseURL+'/uploadResume';
 export const uploadAvatarURL = baseURL+'/uploadAvatar';
-export const socketURL = 'ws://172.20.10.4:8080';
+export const socketURL = 'ws://192.168.0.2:8080';
 
 export  function request(config) {
     let instance = axios.create({
@@ -14,11 +14,6 @@ export  function request(config) {
             'Content-Type': 'application/json;charset=UTF-8' //默认json格式请求体携带参数
         }
     });
-
-    // instance.interceptors.request.use(config => {
-    //     config.loadingText !== undefined && message.loading(config.loadingText, 0);
-    //     return config;
-    //   })
 
       instance.interceptors.response.use(response => {
         return response.data

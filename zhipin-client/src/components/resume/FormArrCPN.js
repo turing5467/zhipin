@@ -76,6 +76,7 @@ export default class FormArrCPN extends Component {
             message.success(index===-1?'添加成功':'修改成功')
             setTimeout(() => {
                 this.setAndTrigger(attrName)
+                
                 window.location.reload();
             }, 1000);
         })

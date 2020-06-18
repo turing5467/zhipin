@@ -1,23 +1,21 @@
-import React, { Component } from 'react'
+import React from 'react'
 import SearchBox from '../../components/search-box'
 import SelectBox from '../../components/select-box'
 
 import JobList from '../../components/job-list'
 
-export default class Jobs extends Component {
-    render() {
-        console.log('job 组件 rendering');
-        return (
-            <div>
-            <div className='filter-box'>
-                <div className='inner'>
-                    <SearchBox />
-                    <SelectBox />
-                </div>
+export default function Jobs() {
+    console.log('job 组件 rendering');
+    return (
+        <div>
+        <div className='filter-box'>
+            <div className='inner'>
+                <SearchBox />
+                <SelectBox />
             </div>
-            <JobList />
-            
-            </div>
-        )
-    }
+        </div>
+        <JobList />
+        
+        </div>
+    )
 }

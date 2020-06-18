@@ -18,6 +18,7 @@ const observer = {
     },
     
     remove(key, fn) {
+        
         var fns = this.clientList[key]; 
         if (!fns) { 
             return false;
