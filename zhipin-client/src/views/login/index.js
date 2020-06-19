@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import {hasClass, addClass, removeClass, randomNumber} from '../../common/util'
 import {message} from 'antd'
 import Cookies from 'js-cookie'
@@ -37,27 +37,27 @@ export default function Login(props) {
         }
     }, [])
 
-    const setTab = (index) => {
+    const setTab = useCallback((index) => {
         
         setTabIndex(index)
         setPassword('')
-    }
+    }, [])
 
-    
 
-    const changePhone = (e, index) => {
+    const changePhone = useCallback((e, index) => {
         let v = e.target.value;
         index === 1 && setPhone_1(v)
         index === 2 && setPhone_2(v)
-    }
-    const changePwd = (e) => {
-        setPassword(e.target.value)
-    }
-    const changeCode = (e) => {
-        setVerifyCode(e.target.value);
-    }
+    }, [])
 
-    const handleLogin = () => {
+    const changePwd = useCallback((e) => {
+        setPassword(e.target.value)
+    })
+    const changeCode = useCallback((e) => {
+        setVerifyCode(e.target.value);
+    })
+
+    const handleLogin = useCallback(() => {
         let index = tabIndex;
         if(index === 1) {
             //密码登录
@@ -111,9 +111,9 @@ export default function Login(props) {
                 setCodeErrInfo('验证码错误')
             }
         }
-    }
+    }, [phone_1, phone_2,password, verifyCode, curCode])
 
-    const getVerifyCode = () => {
+    const getVerifyCode = useCallback(() => {
         let code = randomNumber(1000,9999).toString()
         console.log(code);
         
@@ -142,14 +142,14 @@ export default function Login(props) {
         }else {
             setPhone_2ErrInfo('请正确填写手机号')
         }
-    }
+    }, [phone_2])
 
-    const handleClick = (e) => {
+    const handleClick = useCallback((e) => {
         
         let items = Array.from(document.getElementsByClassName('ipt-wrap'))
         removeClass(items, 'focus-wrap')
         addClass(e.currentTarget, 'focus-wrap')
-    }
+    })
 
     console.log('login 组件 rendering');
     return (

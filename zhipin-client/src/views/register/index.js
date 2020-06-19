@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import {randomNumber} from '../../common/util'
 import {message} from 'antd'
 import {requestRegister} from '../../common/request'
@@ -16,76 +16,85 @@ export default function Register() {
    const [codeAsideText, setCodeAsideText] = useState('发送验证码')
    const [agreePolicyFlag, setAgreePolicyFlag] = useState(false)
 
-   const changePhone = (e) => {
+   const changePhone = useCallback(
+    (e) => {
         setPhone(e.target.value)
-    }
+    },[])
 
-    const changeCode = (e) => {
-        setVerifyCode(e.target.value)
-    }
+    const changeCode = useCallback(
+        (e) => {
+            setVerifyCode(e.target.value)
+        },[])
 
-    const changeAgree = (e) => {
-        setAgreePolicyFlag(e.target.checked)
-    }
+    const changeAgree = useCallback(
+        (e) => {
+            setAgreePolicyFlag(e.target.checked)
+        }, [])
 
-    const getVerifyCode = () => {
-        let code = randomNumber(1000,9999).toString()
-        console.log(code);
-        
-        if(phone.match(/^1[3-9]\d{9}$/)) {
-            //发送验证码
-            setCurCode(code)
-            setCodeAsideText('请稍后')
-            setPhoneErrInfo('')
-            // 5min后验证码失效
-            setTimeout(() => {
-                setCurCode('')
-            },1000*60*5)
-
-            //修改getCodeText
-            let i = 60;
-            let timer = setInterval(() => {
-                i--;
-                setCodeAsideText('已发送'+i+'秒')
-                if(i===0) {
-                    setCodeAsideText('发送验证码')
-                    clearInterval(timer)
-                }
-            }, 1000);
-        }else {
-            setPhoneErrInfo('请正确填写手机号')
-        }
-    }
-
-    const handleRegister = () => {
-        // let {curCode, verifyCode, phone} = this.state;
-        
-        //验证码是否正确
-        if(curCode !== '' && curCode === verifyCode) {
-            setCodeErrInfo('')
+    const getVerifyCode = useCallback(
+        () => {
+            let code = randomNumber(1000,9999).toString()
+            console.log(code);
             
-            //是否同意用户协议
-            if(agreePolicyFlag){
-                requestRegister(phone).then(data => {
-                    
-                    if(data.status === -1) {
-                        //已经注册过
-                        message.info('此手机号已注册，请直接登录');
-                    }else {
-                        //注册成功
-                        message.success('注册成功,请登录');
-                        window.location.href = '/login'
+            if(phone.match(/^1[3-9]\d{9}$/)) {
+                //发送验证码
+                setCurCode(code)
+                setCodeAsideText('请稍后')
+                setPhoneErrInfo('')
+                // 5min后验证码失效
+                setTimeout(() => {
+                    setCurCode('')
+                },1000*60*5)
+    
+                //修改getCodeText
+                let i = 60;
+                let timer = setInterval(() => {
+                    i--;
+                    setCodeAsideText('已发送'+i+'秒')
+                    if(i===0) {
+                        setCodeAsideText('发送验证码')
+                        clearInterval(timer)
                     }
-
-                })
+                }, 1000);
             }else {
-                message.info('请阅读并同意用户协议，方可注册');
+                setPhoneErrInfo('请正确填写手机号')
             }
-        }else {
-            setCodeErrInfo('验证码错误')
-        }
-        
-    }
+        },
+        [phone],
+    )
+
+    const handleRegister = useCallback(
+        () => {
+            // let {curCode, verifyCode, phone} = this.state;
+            
+            //验证码是否正确
+            if(curCode !== '' && curCode === verifyCode) {
+                setCodeErrInfo('')
+                
+                //是否同意用户协议
+                if(agreePolicyFlag){
+                    requestRegister(phone).then(data => {
+                        
+                        if(data.status === -1) {
+                            //已经注册过
+                            message.info('此手机号已注册，请直接登录');
+                        }else {
+                            //注册成功
+                            message.success('注册成功,请登录');
+                            window.location.href = '/login'
+                        }
+    
+                    })
+                }else {
+                    message.info('请阅读并同意用户协议，方可注册');
+                }
+            }else {
+                setCodeErrInfo('验证码错误')
+            }
+            
+        },
+        [curCode, verifyCode, agreePolicyFlag],
+    )
 
     useEffect(() => {
         Cookies.remove('userId');

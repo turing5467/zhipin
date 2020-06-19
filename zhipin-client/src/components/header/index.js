@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// import logo from '../../assets/logo-2x.png'
-// import BHeader from './css';
 import {
     NavLink
   } from "react-router-dom";
@@ -44,8 +42,6 @@ function Header(props) {
                     <div className="btns" style={{display: props.isLogin?'none':'block'}}>
                         <a href="/login" ka="nlp_resume_upload" className="link-sign-resume" title="上传简历，解析内容，完善注册">上传简历</a>
                         <a href="/login" className="link-sign-resume" title="上传简历，解析内容，完善注册">我要找工作<span className="new" style={{display: 'inline-block'}}>hot</span></a>
-                        <a href="/register" className="btn btn-outline">注册</a>
-                        <a href="/login" className="btn btn-outline">登录</a>
                         <NavLink to="/register" className='btn btn-outline'>注册</NavLink>
                         <NavLink to="/login" className='btn btn-outline'>登录</NavLink>
                     </div>
